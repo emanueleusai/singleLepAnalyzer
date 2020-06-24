@@ -12,10 +12,10 @@ from utils import *
 gROOT.SetBatch(1)
 start_time = time.time()
 
-year=2017
+year=int(sys.argv[1])
 saveKey = '_ttHFupLFdown'
 cutString = ''#'lep30_MET100_NJets4_DR1_1jet250_2jet50'
-theDir = 'templates_R'+str(year)+'_Xtrig_2020_4_25'
+theDir = 'templates_R'+str(year)+'_'+sys.argv[2]
 outDir = os.getcwd()+'/'+theDir+'/'+cutString
 
 writeSummaryHists = True
@@ -23,6 +23,7 @@ scaleSignalXsecTo1pb = False # this has to be "True" if you are making templates
 lumiScaleCoeff = 1. # Rescale luminosity used in doHists.py
 ttHFsf = 4.7/3.9 # from TOP-18-002 (v34) Table 4, set it to 1, if no ttHFsf is wanted.
 ttLFsf = -1 # if it is set to -1, ttLFsf is calculated based on ttHFsf in order to keep overall normalization unchanged. Otherwise, it will be used as entered. If no ttLFsf is wanted, set it to 1.
+doNjetSF = True
 doAllSys = True
 doHDsys = True
 doUEsys = True
@@ -274,6 +275,45 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 				for proc in bkgGrupList+bkgProcList+sigList+['data']: yieldStatErrTable[histoPrefix][proc] += hists[proc+i].GetBinError(ibin)**2
 				yieldStatErrTable[histoPrefix]['totBkg'] += sum([hists[proc+i].GetBinError(ibin)**2 for proc in bkgGrupList])
 			for key in yieldStatErrTable[histoPrefix].keys(): yieldStatErrTable[histoPrefix][key] = math.sqrt(yieldStatErrTable[histoPrefix][key])
+
+
+		#njets SF
+		if doNjetSF and 'ttbb' in bkgTTBarList:
+			njetsSF={2017:{},2018:{}}
+			njetsSF[2017][4] = 1.128
+			njetsSF[2017][5] = 1.102
+			njetsSF[2017][6] = 1.076
+			njetsSF[2017][7] = 1.109
+			njetsSF[2017][8] = 1.217
+			njetsSF[2017][9] = 1.238
+			njetsSF[2017][10] = 1.238
+			njetsSF[2018][4] = 1.043
+			njetsSF[2018][5] = 1.014
+			njetsSF[2018][6] = 0.984
+			njetsSF[2018][7] = 1.045
+			njetsSF[2018][8] = 1.090
+			njetsSF[2018][9] = 1.200
+			njetsSF[2018][10] = 1.200
+			for signal in sigList:
+				for cat in catList:
+					i=BRconfStr+cat
+					njet_cat = int(cat.split('_')[-1][2:].replace('p',''))
+					for tt in bkgTTBarList:
+						hists[tt+i].Scale(njetsSF[year][njet_cat])
+						if doAllSys:
+							for syst in systematicList:
+								hists[tt+i+syst+'Up'].Scale(njetsSF[year][njet_cat])
+								hists[tt+i+syst+'Down'].Scale(njetsSF[year][njet_cat])
+						if doPDF:
+							for pdfInd in range(100): 
+								hists[tt+i+'pdf'+str(pdfInd)].Scale(njetsSF[year][njet_cat])
+						if doHDsys:
+							hists[tt+i+'hdUp'].Scale(njetsSF[year][njet_cat])
+							hists[tt+i+'hdDown'].Scale(njetsSF[year][njet_cat])
+						if doUEsys:
+							hists[tt+i+'ueUp'].Scale(njetsSF[year][njet_cat])
+							hists[tt+i+'ueDown'].Scale(njetsSF[year][njet_cat])
+					
 
 		#scale tt+bb (and optionally scale down tt+nobb)
 		if ttHFsf!=1 and 'ttbb' in bkgTTBarList:
@@ -685,7 +725,7 @@ for iPlot in iPlotList:
 	datahists = {}
 	bkghists  = {}
 	sighists  = {}
-	if len(sys.argv)>1 and iPlot!=sys.argv[1]: continue
+	# if len(sys.argv)>1 and iPlot!=sys.argv[1]: continue
 	print "LOADING DISTRIBUTION: "+iPlot
 	#if iPlot!="HT": continue
 	for cat in catList:

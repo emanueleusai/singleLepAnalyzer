@@ -12,7 +12,7 @@ import CMS_lumi, tdrstyle
 rt.gROOT.SetBatch(1)
 start_time = time.time()
 
-year=2017
+year=int(sys.argv[2])
 if year==2017:
 	from weights17 import *
 	lumi=41.5 #for plots
@@ -23,14 +23,14 @@ lumiInTemplates= str(targetlumi/1000).replace('.','p') # 1/fb
 	
 region='SR' #PS,SR,TTCR,WJCR
 isCategorized=1
-iPlot='HT'
+iPlot=sys.argv[1]
 if len(sys.argv)>1: iPlot=str(sys.argv[1])
 cutString=''
 if region=='SR': pfix='templates_R'+str(year)
 elif region=='WJCR': pfix='wjets_R'+str(year)
 elif region=='TTCR': pfix='ttbar_R'+str(year)
 if not isCategorized: pfix='kinematics_'+region+'_R'+str(year)
-templateDir=os.getcwd()+'/'+pfix+'_Xtrig_2020_4_25/'+cutString+'/'
+templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
 isRebinned='_ttHFupLFdown_rebinned_stat0p3' #post for ROOT file names
 saveKey = '' # tag for plot names
@@ -59,7 +59,7 @@ doNormByBinWidth=True
 if 'rebinned' not in isRebinned or 'stat1p1' in isRebinned: doNormByBinWidth=False
 doOneBand = False
 if not doAllSys: doOneBand = True # Don't change this!
-blind = True
+blind = False
 if blind: doOneBand = False
 if not isCategorized: blind = False
 yLog  = True

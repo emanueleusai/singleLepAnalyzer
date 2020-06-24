@@ -60,6 +60,7 @@ try:
 	                                              "nWtag=",
 	                                              "nbtag=",
 	                                              "njets=",
+	                                              "step1dir=",
 	                                              ])
 	print opts,args
 except getopt.GetoptError as err:
@@ -78,9 +79,11 @@ for opt, arg in opts:
 	elif opt == '--nWtag': nWtaglist = [str(arg)]
 	elif opt == '--nbtag': nbtaglist = [str(arg)]
 	elif opt == '--njets': njetslist = [str(arg)]
+	elif opt == '--step1dir': step1dir = str(arg)
 
 lumiStr = str(targetlumi/1000).replace('.','p') # 1/fb
-step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep'+year+'_Oct2019_4t_042520_step1hadds/nominal'
+step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep'+year+'_'+step1dir+'/nominal'
+
 
 bkgList = [
 		  'DYMG200','DYMG400','DYMG600','DYMG800','DYMG1200','DYMG2500',

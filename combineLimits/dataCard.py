@@ -98,10 +98,20 @@ def add_systematics(cb):
 		if proc in ttbkgs: cb.cp().process([proc]).channel(chns).AddSyst(cb, 'ttPSwgtNew_$ERA', 'shape', ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.0)(['13TeV_R2018'], 1.0)) # Uncorrelated; TOP-18-003/AN2018_062_v17 (derived from different datasets and with respect to different MC samples)
 		else: cb.cp().process([proc]).channel(chns).AddSyst(cb, proc+'PSwgtNew_$ERA', 'shape', ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.0)(['13TeV_R2018'], 1.0)) # Uncorrelated; TOP-18-003/AN2018_062_v17 (derived from different datasets and with respect to different MC samples)
 	cb.cp().process(signal).channel(chns).AddSyst(cb, 'TTTTM690PSwgtNew_$ERA', 'shape', ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.0)(['13TeV_R2018'], 1.0)) # Uncorrelated; TOP-18-003/AN2018_062_v17 (derived from different datasets and with respect to different MC samples)
+
+	
 # 	cb.cp().process(ttbkgs).channel(chns).AddSyst(cb, 'ue', 'shape', ch.SystMap()(1.0))
 # 	cb.cp().process(ttbkgs).channel(chns).AddSyst(cb, 'hdamp', 'shape', ch.SystMap()(1.0))
 # 	cb.cp().process(signal + allbkgs).channel(chns).AddSyst(cb, 'pdfNew', 'shape', ch.SystMap()(1.0)) # Correlated, PDF and QCD Scale (not recalculated in 2018); Ex: B2G-19-001/AN2018_322_v7 
 # 	cb.cp().process(ttbkgs).channel(chns).AddSyst(cb, 'toppt', 'shape', ch.SystMap()(1.0)) # Correlated; Ex: B2G-19-003/AN2015_174_v14 (since it is assumed that the affect of this correction should be consistent across years)
+
+   # #njet 4 5 6p E+M 2017+2018
+	cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.042)(['13TeV_R2018'], 1.039))
+	cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.047)(['13TeV_R2018'], 1.041))
+	cb.cp().process(ttbkgs).channel(chns_njet[6]).AddSyst(cb, "n6Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.052)(['13TeV_R2018'], 1.044))
+	cb.cp().process(ttbkgs).channel(chns_njet[7]).AddSyst(cb, "n7Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.059)(['13TeV_R2018'], 1.048))
+	cb.cp().process(ttbkgs).channel(chns_njet[8]).AddSyst(cb, "n8Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.066)(['13TeV_R2018'], 1.054))
+	cb.cp().process(ttbkgs).channel(chns_njet[9]+chns_njet[10]).AddSyst(cb, "n9pJet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.080)(['13TeV_R2018'], 1.062))
 
 
 def add_autoMCstat(cb):
@@ -141,15 +151,15 @@ if __name__ == '__main__':
 	cb = ch.CombineHarvester()
 	#cb.SetVerbosity(20)
 	
-	year = '2017'
+	year = sys.argv[1]
 	era = '13TeV_R'+year
 	lumiStr = '41p53fb'
 	if year=='2018': lumiStr = '59p97fb'
 
 	tag = '_ttHFupLFdown'
 	saveKey = tag
-	fileDir = '/user_data/ssagir/CMSSW_10_2_10/src/singleLepAnalyzer/fourtops/makeTemplates/'
-	template = 'R'+year+'_Xtrig_2020_4_25'
+	fileDir = '/home/eusai/4t/singleLepAnalyzer/makeTemplates/'
+	template = 'R'+year+'_40vars_4j_4to9p'
 	if not os.path.exists('./limits_'+template+saveKey): os.system('mkdir ./limits_'+template+saveKey)
 	os.system('cp '+fileDir+'templates_'+template+'/templates_HT_'+lumiStr+tag+'_rebinned_stat0p3.root ./limits_'+template+saveKey+'/')
 	rfile = './limits_'+template+saveKey+'/templates_HT_'+lumiStr+tag+'_rebinned_stat0p3.root'
@@ -163,6 +173,16 @@ if __name__ == '__main__':
 	chns = [hist[hist.find('fb_')+3:hist.find('__')] for hist in allHistNames if '__'+dataName in hist]
 	chnsE = [chn for chn in chns if '_isE_' in chn]
 	chnsM = [chn for chn in chns if '_isM_' in chn]
+	chns_njet = {}
+	for i in range(4,11):
+		chns_njet[i]=[chn for chn in chns if 'nJ'+str(i) in chn]
+	# print 'njet4 ',chns_njet[4]
+	# print 'njet5 ',chns_njet[5]
+	# print 'njet6 ',chns_njet[6]
+	# print 'njet7 ',chns_njet[7]
+	# print 'njet8 ',chns_njet[8]
+	# print 'njet9 ',chns_njet[9]
+
 	bkg_procs = {chn:[hist.split('__')[-1] for hist in allHistNames if '_'+chn+'_' in hist and not (hist.endswith('Up') or hist.endswith('Down') or hist.endswith(dataName) or hist.endswith('TTTTM690'))] for chn in chns}
 	for cat in sorted(bkg_procs.keys()):
 		print cat,bkg_procs[cat]
@@ -172,6 +192,7 @@ if __name__ == '__main__':
 # 	if year=='2018':
 # 		bkg_procs['isSR_isE_nHOT1p_nT0p_nW0p_nB4p_nJ9']=['ttbb', 'ttcc', 'ttjj', 'top']
 	
+	print bkg_procs
 	sig_procs = ['TTTTM']
 	
 	cats = {}

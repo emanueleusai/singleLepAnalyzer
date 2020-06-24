@@ -10,7 +10,7 @@ from utils import *
 from ROOT import *
 start_time = time.time()
 
-year=2018
+year=int(sys.argv[2])
 if year==2017:
 	from weights17 import *
 else:
@@ -39,7 +39,7 @@ iPlot='HT'
 if len(sys.argv)>1: iPlot=str(sys.argv[1])
 cutString = ''#'lep30_MET150_NJets4_DR1_1jet450_2jet150'
 lumiStr = str(targetlumi/1000).replace('.','p')+'fb' # 1/fb
-templateDir = os.getcwd()+'/templates_R'+str(year)+'_Xtrig_2020_4_25/'+cutString
+templateDir = os.getcwd()+'/templates_R'+str(year)+'_'+sys.argv[3]+'/'+cutString
 combinefile = 'templates_'+iPlot+'_'+lumiStr+'_ttHFupLFdown.root'
 
 quiet = True #if you don't want to see the warnings that are mostly from the stat. shape algorithm!
@@ -502,12 +502,12 @@ nWtaglist=[]
 nbtaglist=[]
 njetslist=[]
 for chn in channels:
-	if chn.split('_')[0+rebinCombine] not in isEMlist: isEMlist.append(chn.split('_')[0+rebinCombine])
-	if chn.split('_')[1+rebinCombine] not in nhottlist: nhottlist.append(chn.split('_')[1+rebinCombine])
-	if chn.split('_')[2+rebinCombine] not in nttaglist: nttaglist.append(chn.split('_')[2+rebinCombine])
-	if chn.split('_')[3+rebinCombine] not in nWtaglist: nWtaglist.append(chn.split('_')[3+rebinCombine])
-	if chn.split('_')[4+rebinCombine] not in nbtaglist: nbtaglist.append(chn.split('_')[4+rebinCombine])
-	if chn.split('_')[5+rebinCombine] not in njetslist: njetslist.append(chn.split('_')[5+rebinCombine])
+	if chn.split('_')[0] not in isEMlist: isEMlist.append(chn.split('_')[0])
+	if chn.split('_')[1] not in nhottlist: nhottlist.append(chn.split('_')[1])
+	if chn.split('_')[2] not in nttaglist: nttaglist.append(chn.split('_')[2])
+	if chn.split('_')[3] not in nWtaglist: nWtaglist.append(chn.split('_')[3])
+	if chn.split('_')[4] not in nbtaglist: nbtaglist.append(chn.split('_')[4])
+	if chn.split('_')[5] not in njetslist: njetslist.append(chn.split('_')[5])
 
 procNames={}
 procNames['dataOverBkg'] = 'Data/Bkg'

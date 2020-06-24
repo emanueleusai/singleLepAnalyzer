@@ -8,9 +8,11 @@ from utils import *
 thisDir = os.getcwd()
 outputDir = thisDir+'/'
 
-year=2018
+year=2017
 region='SR' #PS,SR,TTCR,WJCR
 categorize=1 #1==categorize into t/W/b/j, 0==only split into flavor
+dataset='40vars_4j'
+
 
 cTime=datetime.datetime.now()
 date='%i_%i_%i'%(cTime.year,cTime.month,cTime.day)
@@ -20,10 +22,13 @@ elif region=='WJCR': pfix='wjets'
 else: pfix='templates'
 if not categorize: pfix='kinematics_'+region
 pfix+='_R'+str(year)+'_'
-pfix+='Xtrig_2020_4_25'#+date#+'_'+time
+pfix+=dataset+'_4to9p'#+date#+'_'+time
+
+step1dir = 'Oct2019_4t_05132020_step3_'+dataset
 
 iPlotList = [#distribution name as defined in "doHists.py"
 'HT',
+# 'BDT',
 # 'ST',
 # 'minMlb',
 # 
@@ -91,12 +96,21 @@ iPlotList = [#distribution name as defined in "doHists.py"
 # 'Tjet1Pt',
 ]
 
+# isEMlist  = ['E','M']
+# nhottlist = ['0','1p']
+# nttaglist = ['0p']
+# nWtaglist = ['0p']
+# nbtaglist = ['2','3','4p']
+# njetslist = ['6','7','8','9','10p']
+
 isEMlist  = ['E','M']
-nhottlist = ['0','1p']
+nhottlist = ['0p']
 nttaglist = ['0p']
 nWtaglist = ['0p']
-nbtaglist = ['2','3','4p']
-njetslist = ['6','7','8','9','10p']
+nbtaglist = ['2p']
+# njetslist = ['4','5','6p']
+njetslist = ['4','5','6','7','8','9p']
+
 if not categorize: 	
 	nhottlist = ['0p']
 	nttaglist = ['0p']
@@ -127,7 +141,7 @@ for iplot in iPlotList:
 	
 		dict={'dir':outDir,'iPlot':iplot,'region':region,'isCategorized':categorize,'year':year,
 			  'isEM':cat[0],'nhott':cat[1],'nttag':cat[2],'nWtag':cat[3],'nbtag':cat[4],'njets':cat[5],
-			  'exeDir':thisDir}
+			  'exeDir':thisDir,'step1dir':step1dir}
 	
 		jdf=open('condor_'+iplot+'.job','w')
 		jdf.write(
@@ -140,7 +154,7 @@ Output = condor_%(iPlot)s.out
 Error = condor_%(iPlot)s.err
 Log = condor_%(iPlot)s.log
 Notification = Error
-Arguments = %(dir)s %(iPlot)s %(region)s %(isCategorized)s %(year)s %(isEM)s %(nhott)s %(nttag)s %(nWtag)s %(nbtag)s %(njets)s
+Arguments = %(dir)s %(iPlot)s %(region)s %(isCategorized)s %(year)s %(isEM)s %(nhott)s %(nttag)s %(nWtag)s %(nbtag)s %(njets)s %(step1dir)s 
 Queue 1"""%dict)
 		jdf.close()
 

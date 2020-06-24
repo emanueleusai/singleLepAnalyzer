@@ -1,0 +1,1 @@
+cp -r templates_$1/plots plots/$1
