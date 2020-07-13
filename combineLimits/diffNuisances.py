@@ -6,6 +6,7 @@ from optparse import OptionParser
 import HiggsAnalysis.CombinedLimit.calculate_pulls as CP 
 
 conv =1.50
+nnuis=3
 
 def sfv(x):
 	return pow(conv,x)
@@ -101,9 +102,9 @@ def getGraph(hist,shift):
 """
 
 # Also make histograms for pull distributions:
-hist_fit_b  = ROOT.TH1F("fit_b"   ,"B-only fit Nuisances;;%s "%title,6,0,6)
-hist_fit_s  = ROOT.TH1F("fit_s"   ,"S+B fit Nuisances   ;;%s "%title,6,0,6)
-hist_prefit = ROOT.TH1F("prefit_nuisancs","Prefit Nuisances    ;;%s "%title,6,0,6)
+hist_fit_b  = ROOT.TH1F("fit_b"   ,"B-only fit Nuisances;;%s "%title,nnuis,0,nnuis)
+hist_fit_s  = ROOT.TH1F("fit_s"   ,"S+B fit Nuisances   ;;%s "%title,nnuis,0,nnuis)
+hist_prefit = ROOT.TH1F("prefit_nuisancs","Prefit Nuisances    ;;%s "%title,nnuis,0,nnuis)
 # Store also the *asymmetric* uncertainties
 gr_fit_b    = ROOT.TGraphAsymmErrors(); gr_fit_b.SetTitle("fit_b_g")
 gr_fit_s    = ROOT.TGraphAsymmErrors(); gr_fit_s.SetTitle("fit_b_s")
@@ -429,6 +430,17 @@ if options.plotfile:
     if not options.skipFitB: gr_fit_b.Draw("EPsame")
     if 'Data' not in options.plotfile:
         if not options.skipFitS: gr_fit_s.Draw("EPsame")
+    import os
+    cwd=os.getcwd()
+    pth=''
+    if '4to9p' in cwd:
+    	if 'R2018' in cwd:
+    		pth='../limits_R2018_40vars_4j_ttHFupLFdown/PlotData.root'
+    	if 'R2017' in cwd:
+    		pth='../limits_R2017_40vars_4j_ttHFupLFdown/PlotData.root'
+    	threecat=ROOT.TFile(pth)
+    	tgb=threecat.Get('tgs')
+    	tgb.Draw("EPsame")
     canvas_nuis.SetGridx()
     canvas_nuis.RedrawAxis()
     canvas_nuis.RedrawAxis('g')
@@ -437,9 +449,11 @@ if options.plotfile:
     leg.SetTextFont(42)
     leg.AddEntry(hist_prefit,"Prefit","FL")
     if not options.skipFitB:leg.AddEntry(gr_fit_b,"B-only fit","EPL")
-    if not options.skipFitS:leg.AddEntry(gr_fit_s,"S+B fit"   ,"EPL")
+    if not options.skipFitS:leg.AddEntry(gr_fit_s,"B-only fit 4,5,6p"   ,"EPL")
     leg.Draw()
     fout.WriteTObject(canvas_nuis)
+    fout.WriteTObject(gr_fit_b,'tgb')
+    fout.WriteTObject(gr_fit_s,'tgs')
     canvas_pferrs = ROOT.TCanvas("post_fit_errs", "post_fit_errs", 900, 600)
     for b in range(1,hist_fit_e_s.GetNbinsX()+1): 
       if hist_prefit.GetBinError(b) < 0.000001: continue 

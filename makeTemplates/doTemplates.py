@@ -280,20 +280,36 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 		#njets SF
 		if doNjetSF and 'ttbb' in bkgTTBarList:
 			njetsSF={2017:{},2018:{}}
-			njetsSF[2017][4] = 1.128
-			njetsSF[2017][5] = 1.102
-			njetsSF[2017][6] = 1.076
-			njetsSF[2017][7] = 1.109
-			njetsSF[2017][8] = 1.217
-			njetsSF[2017][9] = 1.238
-			njetsSF[2017][10] = 1.238
-			njetsSF[2018][4] = 1.043
-			njetsSF[2018][5] = 1.014
-			njetsSF[2018][6] = 0.984
-			njetsSF[2018][7] = 1.045
-			njetsSF[2018][8] = 1.090
-			njetsSF[2018][9] = 1.200
-			njetsSF[2018][10] = 1.200
+			#4to9p
+			# njetsSF[2017][4] = 1.128
+			# njetsSF[2017][5] = 1.102
+			# njetsSF[2017][6] = 1.076
+			# njetsSF[2017][7] = 1.109
+			# njetsSF[2017][8] = 1.217
+			# njetsSF[2017][9] = 1.238
+			# njetsSF[2017][10] = 1.238
+			# njetsSF[2018][4] = 1.043
+			# njetsSF[2018][5] = 1.014
+			# njetsSF[2018][6] = 0.984
+			# njetsSF[2018][7] = 1.045
+			# njetsSF[2018][8] = 1.090
+			# njetsSF[2018][9] = 1.200
+			# njetsSF[2018][10] = 1.200
+			#4to6p
+			njetsSF[2017][4] = 1.08025377451
+			njetsSF[2017][5] = 1.06234822531
+			njetsSF[2017][6] = 1.09355645604
+			njetsSF[2017][7] = 1.09355645604
+			njetsSF[2017][8] = 1.09355645604
+			njetsSF[2017][9] = 1.09355645604
+			njetsSF[2017][10] = 1.09355645604
+			njetsSF[2018][4] = 1.04092777146
+			njetsSF[2018][5] = 1.01002610312
+			njetsSF[2018][6] = 1.01089700843
+			njetsSF[2018][7] = 1.01089700843
+			njetsSF[2018][8] = 1.01089700843
+			njetsSF[2018][9] = 1.01089700843
+			njetsSF[2018][10] = 1.01089700843
 			for signal in sigList:
 				for cat in catList:
 					i=BRconfStr+cat

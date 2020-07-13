@@ -1,4 +1,5 @@
-cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
+# cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
+cd limits_R$1_40vars_4j_ttHFupLFdown
 
 # rm cmb/690/workspace.root
 # combineTool.py -M T2W -i cmb/* -o workspace.root --parallel 4
@@ -11,3 +12,9 @@ cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
 python ../diffNuisances.py --abs --all -g PlotData.root fitDiagnosticsData.root --sortBy correlation
 
 cd ../
+
+# cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
+
+# python ../diffNuisances.py --abs --all -g PlotData.root fitDiagnosticsData.root --sortBy correlation
+
+# cd ../

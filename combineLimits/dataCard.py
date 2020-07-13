@@ -106,12 +106,24 @@ def add_systematics(cb):
 # 	cb.cp().process(ttbkgs).channel(chns).AddSyst(cb, 'toppt', 'shape', ch.SystMap()(1.0)) # Correlated; Ex: B2G-19-003/AN2015_174_v14 (since it is assumed that the affect of this correction should be consistent across years)
 
    # #njet 4 5 6p E+M 2017+2018
-	cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.042)(['13TeV_R2018'], 1.039))
-	cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.047)(['13TeV_R2018'], 1.041))
-	cb.cp().process(ttbkgs).channel(chns_njet[6]).AddSyst(cb, "n6Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.052)(['13TeV_R2018'], 1.044))
-	cb.cp().process(ttbkgs).channel(chns_njet[7]).AddSyst(cb, "n7Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.059)(['13TeV_R2018'], 1.048))
-	cb.cp().process(ttbkgs).channel(chns_njet[8]).AddSyst(cb, "n8Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.066)(['13TeV_R2018'], 1.054))
-	cb.cp().process(ttbkgs).channel(chns_njet[9]+chns_njet[10]).AddSyst(cb, "n9pJet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.080)(['13TeV_R2018'], 1.062))
+	# cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.042)(['13TeV_R2018'], 1.039))
+	# cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.047)(['13TeV_R2018'], 1.041))
+	# cb.cp().process(ttbkgs).channel(chns_njet[6]).AddSyst(cb, "n6Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.052)(['13TeV_R2018'], 1.044))
+	# cb.cp().process(ttbkgs).channel(chns_njet[7]).AddSyst(cb, "n7Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.059)(['13TeV_R2018'], 1.048))
+	# cb.cp().process(ttbkgs).channel(chns_njet[8]).AddSyst(cb, "n8Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.066)(['13TeV_R2018'], 1.054))
+	# cb.cp().process(ttbkgs).channel(chns_njet[9]+chns_njet[10]).AddSyst(cb, "n9pJet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.080)(['13TeV_R2018'], 1.062))
+
+	# cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.053)(['13TeV_R2018'], 1.040))
+	# cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.059)(['13TeV_R2018'], 1.042))
+	# cb.cp().process(ttbkgs).channel(chns_njet[6]+chns_njet[7]+chns_njet[8]+chns_njet[9]+chns_njet[10]).AddSyst(cb, "n6Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.075)(['13TeV_R2018'], 1.048))
+
+
+	cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet", "lnN", ch.SystMap()(1.50))
+	cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet", "lnN", ch.SystMap()(1.50))
+	cb.cp().process(ttbkgs).channel(chns_njet[6]).AddSyst(cb, "n6pJet", "lnN", ch.SystMap()(1.50))
+	# cb.cp().process(ttbkgs).channel(chns_njet[7]).AddSyst(cb, "n7Jet", "lnN", ch.SystMap()())
+	# cb.cp().process(ttbkgs).channel(chns_njet[8]).AddSyst(cb, "n8Jet", "lnN", ch.SystMap()())
+	# cb.cp().process(ttbkgs).channel(chns_njet[9]).AddSyst(cb, "n9pJet", "lnN", ch.SystMap()())
 
 
 def add_autoMCstat(cb):
@@ -159,7 +171,8 @@ if __name__ == '__main__':
 	tag = '_ttHFupLFdown'
 	saveKey = tag
 	fileDir = '/home/eusai/4t/singleLepAnalyzer/makeTemplates/'
-	template = 'R'+year+'_40vars_4j_4to9p'
+	# template = 'R'+year+'_40vars_4j_4to9p'
+	template = 'R'+year+'_40vars_4j'
 	if not os.path.exists('./limits_'+template+saveKey): os.system('mkdir ./limits_'+template+saveKey)
 	os.system('cp '+fileDir+'templates_'+template+'/templates_HT_'+lumiStr+tag+'_rebinned_stat0p3.root ./limits_'+template+saveKey+'/')
 	rfile = './limits_'+template+saveKey+'/templates_HT_'+lumiStr+tag+'_rebinned_stat0p3.root'

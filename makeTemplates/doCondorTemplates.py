@@ -8,7 +8,7 @@ from utils import *
 thisDir = os.getcwd()
 outputDir = thisDir+'/'
 
-year=2017
+year=2018
 region='SR' #PS,SR,TTCR,WJCR
 categorize=1 #1==categorize into t/W/b/j, 0==only split into flavor
 dataset='40vars_4j'
@@ -22,7 +22,7 @@ elif region=='WJCR': pfix='wjets'
 else: pfix='templates'
 if not categorize: pfix='kinematics_'+region
 pfix+='_R'+str(year)+'_'
-pfix+=dataset+'_4to9p'#+date#+'_'+time
+pfix+=dataset+'_6p'#+date#+'_'+time
 
 step1dir = 'Oct2019_4t_05132020_step3_'+dataset
 
@@ -46,7 +46,7 @@ iPlotList = [#distribution name as defined in "doHists.py"
 # 'Jet5Pt',
 # 'Jet6Pt',
 # 'MET',
-# 'NJets',
+'NJets',
 # 'NDCSVBJets',
 # 'mindeltaR',
 # 'PtRel',
@@ -104,12 +104,19 @@ iPlotList = [#distribution name as defined in "doHists.py"
 # njetslist = ['6','7','8','9','10p']
 
 isEMlist  = ['E','M']
+
 nhottlist = ['0p']
 nttaglist = ['0p']
 nWtaglist = ['0p']
 nbtaglist = ['2p']
-# njetslist = ['4','5','6p']
-njetslist = ['4','5','6','7','8','9p']
+njetslist = ['6p']
+
+# nhottlist = ['0p']
+# nttaglist = ['0p']
+# nWtaglist = ['0p']
+# nbtaglist = ['2p']
+# # njetslist = ['4','5','6p']
+# njetslist = ['4','5','6','7','8','9p']
 
 if not categorize: 	
 	nhottlist = ['0p']
