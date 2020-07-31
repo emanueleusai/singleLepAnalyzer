@@ -8,7 +8,7 @@ from utils import *
 thisDir = os.getcwd()
 outputDir = thisDir+'/'
 
-year=2018
+year=2017
 region='SR' #PS,SR,TTCR,WJCR
 categorize=1 #1==categorize into t/W/b/j, 0==only split into flavor
 dataset='40vars_4j'
@@ -22,7 +22,7 @@ elif region=='WJCR': pfix='wjets'
 else: pfix='templates'
 if not categorize: pfix='kinematics_'+region
 pfix+='_R'+str(year)+'_'
-pfix+=dataset+'_6p'#+date#+'_'+time
+pfix+=dataset+'_6p_4to9pSF'#+date#+'_'+time
 
 step1dir = 'Oct2019_4t_05132020_step3_'+dataset
 

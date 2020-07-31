@@ -13,7 +13,7 @@ negative MC weights, ets) applied below should be checked!
 
 lumiStr = str(targetlumi/1000).replace('.','p') # 1/fb
 
-def analyze(tTree,process,flv,cutList,doAllSys,doJetRwt,iPlot,plotDetails,category,region,isCategorized):
+def analyze(tTree,process,flv,cutList,doAllSys,doJetRwt,iPlot,plotDetails,category,region,isCategorized,year):
 	print "*****"*20
 	print "*****"*20
 	print "DISTRIBUTION:", iPlot
@@ -82,8 +82,26 @@ def analyze(tTree,process,flv,cutList,doAllSys,doJetRwt,iPlot,plotDetails,catego
 		
 	topPt13TeVstr = '1'
 	if 'TTJets' in process: topPt13TeVstr = 'topPtWeight13TeV'
+	
+	njetStr = '1'
+	if 'TTJets' in process:
+		if year=='2017':
+			njetStr= '( \
+1.0*(NJets_JetSubCalc<4)+\
+1.08025377451*(NJets_JetSubCalc==4)+\
+1.06234822531*(NJets_JetSubCalc==5)+\
+1.09355645604*(NJets_JetSubCalc>=6)\
+)'
+		elif year=='2018':
+			njetStr= '( \
+1.0*(NJets_JetSubCalc<4)+\
+1.04092777146*(NJets_JetSubCalc==4)+\
+1.01002610312*(NJets_JetSubCalc==5)+\
+1.01089700843*(NJets_JetSubCalc>=6)\
+)'
+
 	if 'Data' not in process:
-		weightStr          += ' * '+jetSFstr+' * '+TrigSF+' * pileupWeight * lepIdSF * EGammaGsfSF * isoSF * L1NonPrefiringProb_CommonCalc * (MCWeight_MultiLepCalc/abs(MCWeight_MultiLepCalc)) * '+str(weight[process])
+		weightStr          += ' * '+jetSFstr+' * '+TrigSF+' * '+njetStr+' * pileupWeight * lepIdSF * EGammaGsfSF * isoSF * L1NonPrefiringProb_CommonCalc * (MCWeight_MultiLepCalc/abs(MCWeight_MultiLepCalc)) * '+str(weight[process])
 		weightTriggerUpStr  = weightStr.replace(TrigSF,'('+TrigSF+'+'+TrigSF+'Uncert)')
 		weightTriggerDownStr= weightStr.replace(TrigSF,'('+TrigSF+'-'+TrigSF+'Uncert)')
 		weightPileupUpStr   = weightStr.replace('pileupWeight','pileupWeightUp')
@@ -104,6 +122,41 @@ def analyze(tTree,process,flv,cutList,doAllSys,doJetRwt,iPlot,plotDetails,catego
 		weighttopptDownStr  = '(1/'+topPt13TeVstr+') * '+weightStr
 		weightjsfUpStr      = weightStr.replace(jetSFstr,jetSFstrUp)
 		weightjsfDownStr    = weightStr.replace(jetSFstr,jetSFstrDn)
+# 		if year=='2017':
+# 			weightStr+= '*( \
+# 1.0*(NJets_JetSubCalc<4)+\
+# 1.08025377451*(NJets_JetSubCalc==4)+\
+# 1.06234822531*(NJets_JetSubCalc==5)+\
+# 1.09355645604*(NJets_JetSubCalc>=6)\
+# )'
+# 		elif year=='2018':
+# 			weightStr+= '*( \
+# 1.0*(NJets_JetSubCalc<4)+\
+# 1.04092777146*(NJets_JetSubCalc==4)+\
+# 1.01002610312*(NJets_JetSubCalc==5)+\
+# 1.01089700843*(NJets_JetSubCalc>=6)\
+# )'
+# 		if year=='2017':
+# 			weightStr+= '*( \
+# 1.0*(NJets_JetSubCalc<4)+\
+# 1.128*(NJets_JetSubCalc==4)+\
+# 1.102*(NJets_JetSubCalc==5)+\
+# 1.076*(NJets_JetSubCalc==6)+\
+# 1.109*(NJets_JetSubCalc==7)+\
+# 1.217*(NJets_JetSubCalc==8)+\
+# 1.238*(NJets_JetSubCalc>=9)\
+# )'
+# 		elif year=='2018':
+# 			weightStr+= '*( \
+# 1.0*(NJets_JetSubCalc<4)+\
+# 1.043*(NJets_JetSubCalc==4)+\
+# 1.014*(NJets_JetSubCalc==5)+\
+# 0.984*(NJets_JetSubCalc==6)+\
+# 1.045*(NJets_JetSubCalc==7)+\
+# 1.090*(NJets_JetSubCalc==8)+\
+# 1.200*(NJets_JetSubCalc>=9)\
+# )'
+
 
 	# For N-1 tagging cuts
 	sdmassvar='theJetAK8SoftDropCorr_JetSubCalc_PtOrdered'

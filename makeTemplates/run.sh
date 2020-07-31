@@ -1,4 +1,7 @@
 # python doTemplates.py 2017 40vars_4j_4to9p
+python doTemplates.py 2018 40vars_4j
+
+# python doTemplates.py 2017 40vars_4j_4to9p
 #python doTemplates.py 2017 40vars_6j
 #python doTemplates.py 2017 50vars_4j
 #python doTemplates.py 2017 50vars_6j
@@ -10,30 +13,65 @@
 # python modifyBinning.py HT 2017 40vars_4j_4to9p
 # python modifyBinning.py HT 2018 40vars_4j_4to9p
 
-python doTemplates.py 2017 40vars_4j_4p
-python doTemplates.py 2018 40vars_4j_4p
-python doTemplates.py 2017 40vars_4j_6p
-python doTemplates.py 2018 40vars_4j_6p
+# python doTemplates.py 2017 40vars_4j_4p_4to6pSF
+# python doTemplates.py 2018 40vars_4j_4p_4to6pSF
+# python doTemplates.py 2017 40vars_4j_6p_4to6pSF
+# python doTemplates.py 2018 40vars_4j_6p_4to6pSF
 
-python modifyBinning.py HT 2017 40vars_4j_4p
-python modifyBinning.py HT 2018 40vars_4j_4p
-python modifyBinning.py HT 2017 40vars_4j_6p
-python modifyBinning.py HT 2018 40vars_4j_6p
+# python doTemplates.py 2017 40vars_4j_4p_4to9pSF
+# python doTemplates.py 2018 40vars_4j_4p_4to9pSF
+# python doTemplates.py 2017 40vars_4j_6p_4to9pSF
+# python doTemplates.py 2018 40vars_4j_6p_4to9pSF
 
-python modifyBinning.py NJets 2017 40vars_4j_4p
-python modifyBinning.py NJets 2018 40vars_4j_4p
-python modifyBinning.py NJets 2017 40vars_4j_6p
-python modifyBinning.py NJets 2018 40vars_4j_6p
+# python modifyBinning.py HT 2017 40vars_4j_4p_4to6pSF
+# python modifyBinning.py HT 2018 40vars_4j_4p_4to6pSF
+# python modifyBinning.py HT 2017 40vars_4j_6p_4to6pSF
+# python modifyBinning.py HT 2018 40vars_4j_6p_4to6pSF
 
-python plotTemplates.py HT 2017 40vars_4j_4p
-python plotTemplates.py HT 2018 40vars_4j_4p
-python plotTemplates.py HT 2017 40vars_4j_6p
-python plotTemplates.py HT 2018 40vars_4j_6p
+# python modifyBinning.py HT 2017 40vars_4j_4p_4to9pSF
+# python modifyBinning.py HT 2018 40vars_4j_4p_4to9pSF
+# python modifyBinning.py HT 2017 40vars_4j_6p_4to9pSF
+# python modifyBinning.py HT 2018 40vars_4j_6p_4to9pSF
 
-python plotTemplates.py NJets 2017 40vars_4j_4p
-python plotTemplates.py NJets 2018 40vars_4j_4p
-python plotTemplates.py NJets 2017 40vars_4j_6p
-python plotTemplates.py NJets 2018 40vars_4j_6p
+# python plotTemplates.py HT 2017 40vars_4j_4p_4to6pSF
+# python plotTemplates.py HT 2018 40vars_4j_4p_4to6pSF
+# python plotTemplates.py HT 2017 40vars_4j_6p_4to6pSF
+# python plotTemplates.py HT 2018 40vars_4j_6p_4to6pSF
+
+# python plotTemplates.py HT 2017 40vars_4j_4p_4to9pSF
+# python plotTemplates.py HT 2018 40vars_4j_4p_4to9pSF
+# python plotTemplates.py HT 2017 40vars_4j_6p_4to9pSF
+# python plotTemplates.py HT 2018 40vars_4j_6p_4to9pSF
+
+# python plotTemplates.py NJets 2017 40vars_4j_4p_4to6pSF
+# python plotTemplates.py NJets 2018 40vars_4j_4p_4to6pSF
+# python plotTemplates.py NJets 2017 40vars_4j_6p_4to6pSF
+# python plotTemplates.py NJets 2018 40vars_4j_6p_4to6pSF
+
+# python plotTemplates.py NJets 2017 40vars_4j_4p_4to9pSF
+# python plotTemplates.py NJets 2018 40vars_4j_4p_4to9pSF
+# python plotTemplates.py NJets 2017 40vars_4j_6p_4to9pSF
+# python plotTemplates.py NJets 2018 40vars_4j_6p_4to9pSF
+
+# python modifyBinning.py HT 2017 40vars_4j_4p
+# python modifyBinning.py HT 2018 40vars_4j_4p
+# python modifyBinning.py HT 2017 40vars_4j_6p
+# python modifyBinning.py HT 2018 40vars_4j_6p
+
+# python modifyBinning.py NJets 2017 40vars_4j_4p
+# python modifyBinning.py NJets 2018 40vars_4j_4p
+# python modifyBinning.py NJets 2017 40vars_4j_6p
+# python modifyBinning.py NJets 2018 40vars_4j_6p
+
+# python plotTemplates.py HT 2017 40vars_4j_4p
+# python plotTemplates.py HT 2018 40vars_4j_4p
+# python plotTemplates.py HT 2017 40vars_4j_6p
+# python plotTemplates.py HT 2018 40vars_4j_6p
+
+# python plotTemplates.py NJets 2017 40vars_4j_4p
+# python plotTemplates.py NJets 2018 40vars_4j_4p
+# python plotTemplates.py NJets 2017 40vars_4j_6p
+# python plotTemplates.py NJets 2018 40vars_4j_6p
 
 # python modifyBinning.py HT 2017 40vars_4j
 # python modifyBinning.py HT 2018 40vars_4j

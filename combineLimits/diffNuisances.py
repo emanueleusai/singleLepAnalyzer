@@ -111,6 +111,10 @@ gr_fit_s    = ROOT.TGraphAsymmErrors(); gr_fit_s.SetTitle("fit_b_s")
 
 error_poi = fpf_s.find(options.poi).getError()
 # loop over all fitted parameters
+
+vnx=[]
+vned=[]
+
 for i in range(fpf_s.getSize()):
 
     nuis_s = fpf_s.at(i)
@@ -170,6 +174,8 @@ for i in range(fpf_s.getSize()):
 	    neu = sfe(neu)
 	    if fit_name=='b':
 	    	print name,nx,ned
+	    	vnx.append(nx)
+	    	vned.append(ned)
 	        # print fit_name,1+nx*0.50,ned*0.50,neu*0.50
 
             if nuisIsSymm : row += [ "%+.2f +/- %.2f" % (nx, (abs(ned)+abs(neu))/2) ]
@@ -488,5 +494,6 @@ if options.plotfile:
 
     canvas_nuis.SaveAs(options.plotfile[:-5]+'.png')
 
-   
+print vnx
+print vned
 

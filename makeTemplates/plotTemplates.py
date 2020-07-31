@@ -32,7 +32,7 @@ elif region=='TTCR': pfix='ttbar_R'+str(year)
 if not isCategorized: pfix='kinematics_'+region+'_R'+str(year)
 templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
-isRebinned='_ttHFupLFdown_rebinned_stat0p3' #post for ROOT file names
+isRebinned='_ttHFupLFdown'#_rebinned_stat0p3' #post for ROOT file names
 saveKey = '' # tag for plot names
 
 sig='TTTTM690' #  choose the 1st signal to plot
@@ -99,7 +99,9 @@ if year==2017: lumiSys = 0.023
 trigSys = 0.0 # trigger uncertainty
 lepIdSys = 0.03 # lepton id uncertainty
 lepIsoSys = 0.0 # lepton isolation uncertainty
-corrdSys = math.sqrt(lumiSys**2+trigSys**2+lepIdSys**2+lepIsoSys**2) #cheating while total e/m values are close
+njetSys= 0.048
+if year==2017: lumiSys = 0.075
+corrdSys = math.sqrt(lumiSys**2+trigSys**2+lepIdSys**2+lepIsoSys**2+njetSys**2) #cheating while total e/m values are close
 
 for catEStr in catsElist:
 	modTag = catEStr[catEStr.find('nT'):catEStr.find('nJ')-3]

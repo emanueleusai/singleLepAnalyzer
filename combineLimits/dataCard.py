@@ -115,12 +115,12 @@ def add_systematics(cb):
 
 	# cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.053)(['13TeV_R2018'], 1.040))
 	# cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.059)(['13TeV_R2018'], 1.042))
-	# cb.cp().process(ttbkgs).channel(chns_njet[6]+chns_njet[7]+chns_njet[8]+chns_njet[9]+chns_njet[10]).AddSyst(cb, "n6Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.075)(['13TeV_R2018'], 1.048))
+	cb.cp().process(ttbkgs).channel(chns_njet[6]+chns_njet[7]+chns_njet[8]+chns_njet[9]+chns_njet[10]).AddSyst(cb, "n6Jet_$ERA", "lnN", ch.SystMap('era')(['13TeV_R2016'], 1.0)(['13TeV_R2017'], 1.075)(['13TeV_R2018'], 1.048))
 
 
-	cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet", "lnN", ch.SystMap()(1.50))
-	cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet", "lnN", ch.SystMap()(1.50))
-	cb.cp().process(ttbkgs).channel(chns_njet[6]).AddSyst(cb, "n6pJet", "lnN", ch.SystMap()(1.50))
+	# cb.cp().process(ttbkgs).channel(chns_njet[4]).AddSyst(cb, "n4Jet", "lnN", ch.SystMap()(1.50))
+	# cb.cp().process(ttbkgs).channel(chns_njet[5]).AddSyst(cb, "n5Jet", "lnN", ch.SystMap()(1.50))
+	# cb.cp().process(ttbkgs).channel(chns_njet[6]).AddSyst(cb, "n6pJet", "lnN", ch.SystMap()(1.50))
 	# cb.cp().process(ttbkgs).channel(chns_njet[7]).AddSyst(cb, "n7Jet", "lnN", ch.SystMap()())
 	# cb.cp().process(ttbkgs).channel(chns_njet[8]).AddSyst(cb, "n8Jet", "lnN", ch.SystMap()())
 	# cb.cp().process(ttbkgs).channel(chns_njet[9]).AddSyst(cb, "n9pJet", "lnN", ch.SystMap()())

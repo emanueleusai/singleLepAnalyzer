@@ -13,8 +13,8 @@ python ../diffNuisances.py --abs --all -g PlotData.root fitDiagnosticsData.root 
 
 cd ../
 
-# cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
+cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
 
-# python ../diffNuisances.py --abs --all -g PlotData.root fitDiagnosticsData.root --sortBy correlation
+python ../diffNuisances.py --abs --all -g PlotData.root fitDiagnosticsData.root --sortBy correlation
 
-# cd ../
+cd ../

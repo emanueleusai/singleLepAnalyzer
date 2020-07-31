@@ -23,7 +23,7 @@ scaleSignalXsecTo1pb = False # this has to be "True" if you are making templates
 lumiScaleCoeff = 1. # Rescale luminosity used in doHists.py
 ttHFsf = 4.7/3.9 # from TOP-18-002 (v34) Table 4, set it to 1, if no ttHFsf is wanted.
 ttLFsf = -1 # if it is set to -1, ttLFsf is calculated based on ttHFsf in order to keep overall normalization unchanged. Otherwise, it will be used as entered. If no ttLFsf is wanted, set it to 1.
-doNjetSF = True
+doNjetSF = False
 doAllSys = True
 doHDsys = True
 doUEsys = True
@@ -278,38 +278,38 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 
 
 		#njets SF
-		if doNjetSF and 'ttbb' in bkgTTBarList:
+		if doNjetSF and 'tt' in bkgTTBarList:
 			njetsSF={2017:{},2018:{}}
 			#4to9p
-			# njetsSF[2017][4] = 1.128
-			# njetsSF[2017][5] = 1.102
-			# njetsSF[2017][6] = 1.076
-			# njetsSF[2017][7] = 1.109
-			# njetsSF[2017][8] = 1.217
-			# njetsSF[2017][9] = 1.238
-			# njetsSF[2017][10] = 1.238
-			# njetsSF[2018][4] = 1.043
-			# njetsSF[2018][5] = 1.014
-			# njetsSF[2018][6] = 0.984
-			# njetsSF[2018][7] = 1.045
-			# njetsSF[2018][8] = 1.090
-			# njetsSF[2018][9] = 1.200
-			# njetsSF[2018][10] = 1.200
+			njetsSF[2017][4] = 1.128
+			njetsSF[2017][5] = 1.102
+			njetsSF[2017][6] = 1.076
+			njetsSF[2017][7] = 1.109
+			njetsSF[2017][8] = 1.217
+			njetsSF[2017][9] = 1.238
+			njetsSF[2017][10] = 1.238
+			njetsSF[2018][4] = 1.043
+			njetsSF[2018][5] = 1.014
+			njetsSF[2018][6] = 0.984
+			njetsSF[2018][7] = 1.045
+			njetsSF[2018][8] = 1.090
+			njetsSF[2018][9] = 1.200
+			njetsSF[2018][10] = 1.200
 			#4to6p
-			njetsSF[2017][4] = 1.08025377451
-			njetsSF[2017][5] = 1.06234822531
-			njetsSF[2017][6] = 1.09355645604
-			njetsSF[2017][7] = 1.09355645604
-			njetsSF[2017][8] = 1.09355645604
-			njetsSF[2017][9] = 1.09355645604
-			njetsSF[2017][10] = 1.09355645604
-			njetsSF[2018][4] = 1.04092777146
-			njetsSF[2018][5] = 1.01002610312
-			njetsSF[2018][6] = 1.01089700843
-			njetsSF[2018][7] = 1.01089700843
-			njetsSF[2018][8] = 1.01089700843
-			njetsSF[2018][9] = 1.01089700843
-			njetsSF[2018][10] = 1.01089700843
+			# njetsSF[2017][4] = 1.08025377451
+			# njetsSF[2017][5] = 1.06234822531
+			# njetsSF[2017][6] = 1.09355645604
+			# njetsSF[2017][7] = 1.09355645604
+			# njetsSF[2017][8] = 1.09355645604
+			# njetsSF[2017][9] = 1.09355645604
+			# njetsSF[2017][10] = 1.09355645604
+			# njetsSF[2018][4] = 1.04092777146
+			# njetsSF[2018][5] = 1.01002610312
+			# njetsSF[2018][6] = 1.01089700843
+			# njetsSF[2018][7] = 1.01089700843
+			# njetsSF[2018][8] = 1.01089700843
+			# njetsSF[2018][9] = 1.01089700843
+			# njetsSF[2018][10] = 1.01089700843
 			for signal in sigList:
 				for cat in catList:
 					i=BRconfStr+cat
@@ -343,6 +343,9 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 						if tt!='ttbb': Nttnobb += hists[tt+i].Integral()
 					ttLFsf_ = ttLFsf
 					if ttLFsf==-1: ttLFsf_ = 1. + ( 1-ttHFsf ) * ( Nttbb/Nttnobb )
+					print '#'*100
+					print cat,' ',ttLFsf_
+					print '#'*100
 					hists['ttbb'+i].Scale(ttHFsf)
 					for tt in bkgTTBarList:
 						if tt!='ttbb': hists[tt+i].Scale(ttLFsf_)
