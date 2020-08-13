@@ -1,0 +1,7 @@
+*.root
+*.pyc
+combineLimits/limits_*
+makeTemplates/templates_*
+makeTemplates/kinematics_*
+combineLimits/limit_*
+*.txt
