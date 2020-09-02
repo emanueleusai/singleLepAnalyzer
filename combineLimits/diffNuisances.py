@@ -173,9 +173,14 @@ for i in range(fpf_s.getSize()):
 	    ned = sfe(ned)
 	    neu = sfe(neu)
 	    if fit_name=='b':
-	    	print name,nx,ned
-	    	vnx.append(nx)
-	    	vned.append(ned)
+	        the_number=name[1]
+	        has_plus= (name[2]=='p')
+	        lname='$N_{\\text{jet}}='+the_number+'$'
+	        if has_plus:
+	        	lname='$N_{\\text{jet}}\\geq'+the_number+'$'
+	        print lname,'&',"{:.2f}".format(nx),'&',"{:.2f}".format(nx),'\n'
+	        vnx.append(nx)
+	        vned.append(ned)
 	        # print fit_name,1+nx*0.50,ned*0.50,neu*0.50
 
             if nuisIsSymm : row += [ "%+.2f +/- %.2f" % (nx, (abs(ned)+abs(neu))/2) ]
