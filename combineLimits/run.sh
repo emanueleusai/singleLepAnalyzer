@@ -1,5 +1,5 @@
-# cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
-cd limits_R$1_40vars_4j_ttHFupLFdown
+cd limits_R$1_40vars_4j_4to9p_ttHFupLFdown
+# cd limits_R$1_40vars_4j_ttHFupLFdown
 
 # rm cmb/690/workspace.root
 # combineTool.py -M T2W -i cmb/* -o workspace.root --parallel 4

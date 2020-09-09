@@ -172,13 +172,28 @@ for i in range(fpf_s.getSize()):
 	    nx = sfv(nx)
 	    ned = sfe(ned)
 	    neu = sfe(neu)
+
+
+	    print fit_name
+	    the_number=name[1]
+	    has_plus= (name[2]=='p')
+	    lname='$N_{\\text{jet}}='+the_number+'$'
+	    if has_plus:
+	       lname='$N_{\\text{jet}}\\geq'+the_number+'$'
+	    print lname,'&',"{:.2f}".format(nx),'\\pm',"{:.2f}".format(ned),'\n'
+	    # if fit_name=='b':
+	    #     vnx.append(nx)
+	    #     vned.append(ned)
+	        # print fit_name,1+nx*0.50,ned*0.50,neu*0.50
+
+
 	    if fit_name=='b':
 	        the_number=name[1]
 	        has_plus= (name[2]=='p')
 	        lname='$N_{\\text{jet}}='+the_number+'$'
 	        if has_plus:
 	        	lname='$N_{\\text{jet}}\\geq'+the_number+'$'
-	        print lname,'&',"{:.2f}".format(nx),'&',"{:.2f}".format(nx),'\n'
+	        # print lname,'&',"{:.2f}".format(nx),'&',"{:.2f}".format(nx),'\n'
 	        vnx.append(nx)
 	        vned.append(ned)
 	        # print fit_name,1+nx*0.50,ned*0.50,neu*0.50
