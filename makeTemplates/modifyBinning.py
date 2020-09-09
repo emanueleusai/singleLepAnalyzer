@@ -35,12 +35,12 @@ if year=='R17':
 else:
 	from weights18 import *
 
-iPlot='HT'
+iPlot='BDT'
 saveKey = ''#'_50GeV_100GeVnB2'
 if len(sys.argv)>1: iPlot=str(sys.argv[1])
 cutString = ''#'lep30_MET150_NJets4_DR1_1jet450_2jet150'
 lumiStr = str(targetlumi/1000).replace('.','p')+'fb' # 1/fb
-templateDir = os.getcwd()+'/templates_'+year+'_njet_2020_8_6/'+cutString
+templateDir = os.getcwd()+'/templates_'+year+'_08262020_66vars_4j/'+cutString
 combinefile = 'templates_'+iPlot+'_'+lumiStr+'.root'
 
 quiet = True #if you don't want to see the warnings that are mostly from the stat. shape algorithm!
@@ -70,13 +70,18 @@ singleBinCR = False
 symmetrizeTopPtShift = False
 scaleSignalsToXsec = False # !!!!!Make sure you know signal x-sec used in input files to this script. If this is True, it will scale signal histograms by x-sec in weights.py!!!!!
 zero = 1E-12
-xMin = 0
+xMin = -1
 xMax = 1e9
 
 if iPlot=='HT' and stat<1.: 
 	minNbins=2 #(assuming initial hists are 25 GeV bins) min 50GeV bin width (_nB2_ categories are set to min 100GeV bin width below)
 	xMin = 500
 	xMax = 3000
+
+if iPlot=='BDT' and stat<1.: 
+	minNbins=2 #(assuming initial hists are 25 GeV bins) min 50GeV bin width (_nB2_ categories are set to min 100GeV bin width below)
+	xMin = -1
+	xMax = 1
 
 if rebinCombine:
 	dataName = 'data_obs'
@@ -98,8 +103,8 @@ muIdSys = 0.03 #muon id uncertainty
 elIsoSys = 0.0 #electron isolation uncertainty
 muIsoSys = 0.0 #muon isolation uncertainty
 htRwtSys = 0.0
-njetSys = 0.048
-if year=='R17': njetSys = 0.075
+njetSys = 0.0#0.048
+if year=='R17': njetSys = 0.0#0.075
 elcorrdSys = math.sqrt(lumiSys**2+eltrigSys**2+elIdSys**2+elIsoSys**2+htRwtSys**2+njetSys**2)
 mucorrdSys = math.sqrt(lumiSys**2+mutrigSys**2+muIdSys**2+muIsoSys**2+htRwtSys**2+njetSys**2)
 
@@ -171,8 +176,8 @@ for chn in totBkgHists.keys():
 		totDataTempBinErrSquared_E += dataHists_[chn].GetBinError(Nbins+1-iBin)**2
 		totDataTempBinErrSquared_M += dataHists_[chn.replace('isE','isM')].GetBinError(Nbins+1-iBin)**2
 		nBinsMerged+=1
-		#if nBinsMerged<minNbins: continue
-		if nBinsMerged<minNbins or ('_nB2_' in chn and nBinsMerged<4 and iPlot=='HT'): continue
+		if nBinsMerged<minNbins: continue
+		# if nBinsMerged<minNbins or ('_nB2_' in chn and nBinsMerged<4 and iPlot=='BDT'): continue
 		if totTempBinContent_E>0. and totTempBinContent_M>0.:
 			if math.sqrt(totTempBinErrSquared_E)/totTempBinContent_E<=stat and math.sqrt(totTempBinErrSquared_M)/totTempBinContent_M<=stat:
 				totTempBinContent_E = 0.

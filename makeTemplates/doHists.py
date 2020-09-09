@@ -80,7 +80,24 @@ for opt, arg in opts:
 	elif opt == '--njets': njetslist = [str(arg)]
 
 lumiStr = str(targetlumi/1000).replace('.','p') # 1/fb
-step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+year[1:]+'_Oct2019_4t_072820_step1hadds/nominal'
+
+print os.getcwd()
+nvrs=''
+if '_66vars' in os.getcwd():
+	nvrs='66vars'
+if '_73vars' in os.getcwd():
+	nvrs='73vars'
+
+njts=''
+if '_4j' in os.getcwd():
+	njts='4j'
+if '_6j' in os.getcwd():
+	njts='6j'
+
+step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+year[1:]+'_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_'+nvrs+'_mDepth2_'+njts+'_year20'+year[1:]+'/nominal'
+# step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+year[1:]+'_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_66vars_mDepth2_6j_year20'+year[1:]+'/nominal'
+# step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+year[1:]+'_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_73vars_mDepth2_4j_year20'+year[1:]+'/nominal'
+# step1Dir = '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+year[1:]+'_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_73vars_mDepth2_6j_year20'+year[1:]+'/nominal'
 
 bkgList = [
 		  'DYMG200','DYMG400','DYMG600','DYMG800','DYMG1200','DYMG2500',

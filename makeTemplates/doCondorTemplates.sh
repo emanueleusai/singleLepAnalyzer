@@ -5,8 +5,11 @@ theDir=$1
 
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 
-cd $theDir
+cd /home/eusai/4t/CMSSW_10_2_16_UL/src
 eval `scramv1 runtime -sh`
+
+cd $theDir
+
 pwd
 python -u doHists.py $condorDir \
 					--iPlot=${2} \
