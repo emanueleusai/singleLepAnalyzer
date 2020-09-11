@@ -1,5 +1,5 @@
 # cd limits_R$1_40vars_4j_ttHFupLFdown
-cd limits_R17_08262020_66vars_4j
+cd limits_$2_08262020_$1
 
 rm cmb/workspace.root
 combineTool.py -M T2W -i cmb/* -o workspace.root --parallel 4

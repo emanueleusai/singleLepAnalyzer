@@ -29,18 +29,18 @@ start_time = time.time()
 # -- Use "removalKeys" to remove specific systematics from the output file.
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-year='R17'
+year=sys.argv[2]#'R17'
 if year=='R17':
 	from weights17 import *
 else:
 	from weights18 import *
 
-iPlot='BDT'
+iPlot=sys.argv[3]#'BDT'
 saveKey = ''#'_50GeV_100GeVnB2'
-if len(sys.argv)>1: iPlot=str(sys.argv[1])
+# if len(sys.argv)>1: iPlot=str(sys.argv[1])
 cutString = ''#'lep30_MET150_NJets4_DR1_1jet450_2jet150'
 lumiStr = str(targetlumi/1000).replace('.','p')+'fb' # 1/fb
-templateDir = os.getcwd()+'/templates_'+year+'_08262020_66vars_4j/'+cutString
+templateDir = os.getcwd()+'/templates_'+year+'_08262020_'+sys.argv[1]+'/'+cutString#66vars_4j/'+cutString
 combinefile = 'templates_'+iPlot+'_'+lumiStr+'.root'
 
 quiet = True #if you don't want to see the warnings that are mostly from the stat. shape algorithm!

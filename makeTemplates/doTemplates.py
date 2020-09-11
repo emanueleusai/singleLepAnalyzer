@@ -12,10 +12,10 @@ from utils import *
 gROOT.SetBatch(1)
 start_time = time.time()
 
-year='R17'
+year=sys.argv[2]#'R17'
 saveKey = ''#'_ttHFupLFdown'
 cutString = ''#'lep30_MET100_NJets4_DR1_1jet250_2jet50'
-theDir = 'templates_'+year+'_08262020_66vars_4j'
+theDir = 'templates_'+year+'_08262020_'+sys.argv[1]#66vars_4j'
 outDir = os.getcwd()+'/'+theDir+'/'+cutString
 
 writeSummaryHists = True
@@ -710,7 +710,7 @@ for iPlot in iPlotList:
 	datahists = {}
 	bkghists  = {}
 	sighists  = {}
-	if len(sys.argv)>1 and iPlot!=sys.argv[1]: continue
+	# if len(sys.argv)>1 and iPlot!=sys.argv[1]: continue
 	print "LOADING DISTRIBUTION: "+iPlot,gettime()
 	#if iPlot!="HT": continue
 	for cat in catList:

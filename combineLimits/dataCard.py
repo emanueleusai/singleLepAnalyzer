@@ -25,11 +25,11 @@ def add_processes_and_observations(cb, prefix='tttt'):
 def add_shapes(cb):
 	print '>> Extracting histograms from input root files...'
 	for chn in chns:
-		bkg_pattern = 'BDT_'+lumiStr+'_%s$BIN__$PROCESS' % chn
+		bkg_pattern = sys.argv[3]+'_'+lumiStr+'_%s$BIN__$PROCESS' % chn
 		cb.cp().channel([chn]).era([era]).backgrounds().ExtractShapes(
 			rfile, bkg_pattern, bkg_pattern + '__$SYSTEMATIC')
 		
-		sig_pattern = 'BDT_'+lumiStr+'_%s$BIN__$PROCESS$MASS' % chn
+		sig_pattern = sys.argv[3]+'_'+lumiStr+'_%s$BIN__$PROCESS$MASS' % chn
 		if 'isCR' not in chn:
 			cb.cp().channel([chn]).era([era]).signals().ExtractShapes(
 				rfile, sig_pattern, sig_pattern + '__$SYSTEMATIC')
@@ -146,16 +146,16 @@ if __name__ == '__main__':
 	cb = ch.CombineHarvester()
 	#cb.SetVerbosity(20)
 	
-	era = 'R17'
+	era = sys.argv[2]#'R17'
 	lumiStr = '41p53fb'
 	if era=='R18': lumiStr = '59p97fb'
 	tag = ''
 	saveKey = tag
 	fileDir = '/home/eusai/4t/singleLepAnalyzer/makeTemplates/'
-	template = era+'_08262020_66vars_4j'
+	template = era+'_08262020_'+sys.argv[1]#66vars_4j'
 	if not os.path.exists('./limits_'+template+saveKey): os.system('mkdir ./limits_'+template+saveKey)
-	os.system('cp '+fileDir+'templates_'+template+'/templates_BDT_'+lumiStr+tag+'_rebinned_stat0p3.root ./limits_'+template+saveKey+'/')
-	rfile = './limits_'+template+saveKey+'/templates_BDT_'+lumiStr+tag+'_rebinned_stat0p3.root'
+	os.system('cp '+fileDir+'templates_'+template+'/templates_'+sys.argv[3]+'_'+lumiStr+tag+'_rebinned_stat0p3.root ./limits_'+template+saveKey+'/')
+	rfile = './limits_'+template+saveKey+'/templates_'+sys.argv[3]+'_'+lumiStr+tag+'_rebinned_stat0p3.root'
 	
 	ttbkgs = ['ttnobb','ttbb'] # ['ttjj','ttcc','ttbb','ttbj']
 	allbkgs = ttbkgs + ['top','ewk','qcd']
