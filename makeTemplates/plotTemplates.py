@@ -32,8 +32,14 @@ elif region=='TTCR': pfix='ttbar_'+year
 if not isCategorized: pfix='kinematics_'+region+'_'+year
 templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
-isRebinned='_rebinned_stat0p3' #post for ROOT file names
-saveKey = '' # tag for plot names
+# isRebinned='_rebinned_stat0p301'#'_rebinned_stat0p301'#'_rebinned_stat0p3'#'_rebinned_stat0p3' #post for ROOT file names
+# saveKey = '_noemptybin'#'_noemptyrebin' # tag for plot names
+
+# isRebinned='_rebinned_stat0p3'#'_rebinned_stat0p301'#'_rebinned_stat0p3'#'_rebinned_stat0p3' #post for ROOT file names
+# saveKey = '_rebin'
+
+isRebinned='_rebinned_stat0p3'#'_rebinned_stat0p301'#'_rebinned_stat0p3'#'_rebinned_stat0p3' #post for ROOT file names
+saveKey = ''#'_norebin'
 
 sig='tttt' #  choose the 1st signal to plot
 sigleg='t#bar{t}t#bar{t}'
@@ -51,16 +57,16 @@ elif 'tttt' in sig: bkgHistColors = {'tt2b':rt.kRed+3,'tt1b':rt.kRed-3,'ttbj':rt
 elif 'HTB' in sig: bkgHistColors = {'ttbar':rt.kGreen-3,'wjets':rt.kPink-4,'top':rt.kAzure+8,'ewk':rt.kMagenta-2,'qcd':rt.kOrange+5} #HTB
 else: bkgHistColors = {'top':rt.kAzure+8,'ewk':rt.kMagenta-2,'qcd':rt.kOrange+5} #TT
 
-systematicList = ['pileup','prefire','btag','mistag','jec','jer','hotstat','hotcspur','hotclosure','PSwgt','muRF','pdf']#,'njet','hdamp','ue','ht','trigeff','toppt','tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt']
+systematicList = ['pileup','prefire','btag','mistag','jec','jer','PSwgt','muRF','hotstat','hotcspur','hotclosure']#'pdf']#,'hotstat','hotcspur','hotclosure']#,'PSwgt','muRF','pdf']#,'njet','hdamp','ue','ht','trigeff','toppt','tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt']
 doAllSys = True
 doQ2sys  = False
 if not doAllSys: doQ2sys = False
 addCRsys = False
-doNormByBinWidth=True
+doNormByBinWidth=False
 if 'rebinned' not in isRebinned or 'stat1p1' in isRebinned: doNormByBinWidth=False
 doOneBand = False
 if not doAllSys: doOneBand = True # Don't change this!
-blind = True
+blind = False
 if blind: doOneBand = False
 if not isCategorized: blind = False
 yLog  = True
@@ -212,7 +218,8 @@ if not blind: tagPosY-=0.1
 
 table = []
 table.append(['break'])
-table.append(['Categories','prob_KS','prob_KS_X','prob_chi2','chi2','ndof'])
+# table.append(['Categories','prob_KS','prob_KS_X','prob_chi2','chi2','ndof'])
+table.append(['Categories','prob_KS','prob_KS_X','prob_KS_X_switch','prob_KS_stat','prob_KS_X_stat','prob_KS_X_stat_switch','prob_chi2','chi2','prob_chi2_stat','chi2_stat','ndof'])
 table.append(['break'])
 bkghists = {}
 bkghistsmerged = {}
@@ -295,6 +302,7 @@ for catEStr in catsElist:
 						try:
 							errorPlus = systHists[proc+catStr+syst+upTag].GetBinContent(ibin)-bkghists[proc+catStr].GetBinContent(ibin)
 							errorMinus = bkghists[proc+catStr].GetBinContent(ibin)-systHists[proc+catStr+syst+downTag].GetBinContent(ibin)
+							# print ibin,' ',proc,' ',syst,' aaaaaaaaaaaa ',bkghists[proc+catStr].GetBinContent(ibin),errorMinus, errorPlus
 							if errorPlus > 0: errorUp += errorPlus**2
 							else: errorDn += errorPlus**2
 							if errorMinus > 0: errorDn += errorMinus**2
@@ -307,14 +315,53 @@ for catEStr in catsElist:
 			totBkgTemp2[catStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 			totBkgTemp3[catStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 			totBkgTemp3[catStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
+
 			
+
+		bkgHT_test_stat = bkgHT_test.Clone()
 		for ibin in range(1, bkgHT_test.GetNbinsX()+1):
 			bkgHT_test.SetBinError(ibin,(totBkgTemp3[catStr].GetErrorYlow(ibin-1) + totBkgTemp3[catStr].GetErrorYhigh(ibin-1))/2 )
+			bkgHT_test_stat.SetBinError(ibin,(totBkgTemp1[catStr].GetErrorYlow(ibin-1) + totBkgTemp1[catStr].GetErrorYhigh(ibin-1))/2 )
 
-		prob_KS = bkgHT_test.KolmogorovTest(hData_test)
-		prob_KS_X = bkgHT_test.KolmogorovTest(hData_test,"X")
-		prob_chi2 = hData_test.Chi2Test(bkgHT_test,"UW")
-		chi2 = hData_test.Chi2Test(bkgHT_test,"UW CHI2")
+		hData_test_pois = hData_test.Clone()
+		hData_test_pois.SetBinErrorOption(1)#kPoisson
+
+		# bkgHT_test.SetBinContent(1,0.0)
+		# bkgHT_test_stat.SetBinContent(1,0.0)
+		# hData_test.SetBinContent(1,0.0)
+		# hData_test_pois.SetBinContent(1,0.0)
+		# bkgHT_test.SetBinError(1,0.0)
+		# bkgHT_test_stat.SetBinError(1,0.0)
+		# hData_test.SetBinError(1,0.0)
+		# hData_test_pois.SetBinError(1,0.0)
+
+		# prob_KS = bkgHT_test.KolmogorovTest(hData_test)
+		# prob_KS_X = bkgHT_test.KolmogorovTest(hData_test,"X")
+		# prob_chi2 = hData_test.Chi2Test(bkgHT_test,"UW")
+		# chi2 = hData_test.Chi2Test(bkgHT_test,"UW CHI2")
+
+		#chi2 allsys
+		prob_chi2 = hData_test_pois.Chi2Test(bkgHT_test,"UW")
+		chi2 = hData_test_pois.Chi2Test(bkgHT_test,"UW CHI2")
+		#chi2 statonly
+		prob_chi2_stat = hData_test_pois.Chi2Test(bkgHT_test_stat,"UW")
+		chi2_stat = hData_test_pois.Chi2Test(bkgHT_test_stat,"UW CHI2")
+
+		#KS MC.(data) allsys
+		prob_KS = bkgHT_test.KolmogorovTest(hData_test_pois)
+		#KS X MC.(data) allsys
+		prob_KS_X = bkgHT_test.KolmogorovTest(hData_test_pois,"X")
+		#KS X data.(MC) allsys
+		prob_KS_X_switch = hData_test_pois.KolmogorovTest(bkgHT_test,"X")
+
+		#KS MC.(data) statonly
+		prob_KS_stat = bkgHT_test_stat.KolmogorovTest(hData_test_pois)
+		#KS X MC.(data) statonly
+		prob_KS_X_stat = bkgHT_test_stat.KolmogorovTest(hData_test_pois,"X")
+		prob_KS_X_stat_switch = hData_test_pois.KolmogorovTest(bkgHT_test_stat,"X")
+
+
+
 		if hData_test.Chi2Test(bkgHT_test,"UW CHI2/NDF")!=0: ndof = int(hData_test.Chi2Test(bkgHT_test,"UW CHI2")/hData_test.Chi2Test(bkgHT_test,"UW CHI2/NDF"))
 		else: ndof = 0
 		print '/'*80,'\n','*'*80
@@ -324,7 +371,8 @@ for catEStr in catsElist:
 		print histPrefix+'_Chi2Test:'
 		print "p-value =",prob_chi2,"CHI2/NDF",chi2,"/",ndof
 		print '*'*80,'\n','/'*80
-		table.append([catStr,prob_KS,prob_KS_X,prob_chi2,chi2,ndof])
+		# table.append([catStr,prob_KS,prob_KS_X,prob_chi2,chi2,ndof])
+		table.append([catStr,prob_KS,prob_KS_X,prob_KS_X_switch,prob_KS_stat,prob_KS_X_stat,prob_KS_X_stat_switch,prob_chi2,chi2,prob_chi2_stat,chi2_stat,ndof])
 		
 		bkgHTgerr = totBkgTemp3[catStr].Clone()
 

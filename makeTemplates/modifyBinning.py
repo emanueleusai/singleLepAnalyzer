@@ -46,7 +46,7 @@ combinefile = 'templates_'+iPlot+'_'+lumiStr+'.root'
 quiet = True #if you don't want to see the warnings that are mostly from the stat. shape algorithm!
 rebinCombine = True #else rebins theta templates
 doStatShapes = False
-doPDF = True
+doPDF = False
 doMURF = True
 doPSWeights = True
 normalizeTheorySystSig = True #normalize renorm/fact, PDF and ISR/FSR systematics to nominal templates for signals
@@ -187,7 +187,8 @@ for chn in totBkgHists.keys():
 		nBinsMerged+=1
 		#if nBinsMerged<minNbins: continue
 		if nBinsMerged<minNbins or ('_nB2_' in chn and nBinsMerged<4 and (iPlot.startswith('HT') or iPlot=='ST' or iPlot=='BDT')): continue
-		if totTempBinContent_E>0. and totTempBinContent_M>0.:
+		# if totTempBinContent_E>4. and totTempBinContent_M>4. and totDataTempBinContent_E>4. and totDataTempBinContent_M>4.:
+		if totTempBinContent_E>0. and totTempBinContent_M>0. and totDataTempBinContent_E>0. and totDataTempBinContent_M>0.:
 			if math.sqrt(totTempBinErrSquared_E)/totTempBinContent_E<=stat and math.sqrt(totTempBinErrSquared_M)/totTempBinContent_M<=stat:
 				totTempBinContent_E = 0.
 				totTempBinContent_M = 0.
@@ -253,6 +254,12 @@ for rfile in rfiles:
 		rebinnedHists = {}
 		#Rebinning histograms
 		for hist in allhists[chn]:
+
+			# rebinnedHists[hist]=tfiles[iRfile].Get(hist).Rebin(len(xbins[chn])-2,hist,xbins[chn][1:])
+			# rebinnedHists[hist].SetDirectory(0)
+			# # overflow(rebinnedHists[hist])
+			# # underflow(rebinnedHists[hist])
+
 			rebinnedHists[hist]=tfiles[iRfile].Get(hist).Rebin(len(xbins[chn])-1,hist,xbins[chn])
 			rebinnedHists[hist].SetDirectory(0)
 			overflow(rebinnedHists[hist])
