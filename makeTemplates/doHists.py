@@ -174,7 +174,7 @@ def readTree(file):
 
 bigbins = [0,50,100,125,150,175,200,225,250,275,300,325,350,375,400,450,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,5000]
 
-nbin_multiplier=10
+nbin_multiplier=1
 plotList = {#discriminantName:(discriminantLJMETName, binning, xAxisLabel)
 	'deltaRAK8':('minDR_leadAK8otherAK8',linspace(0,5,(51-1)*nbin_multiplier+1).tolist(),';min #DeltaR(1^{st} AK8 jet, other AK8 jet)'),
 	'MTlmet':('MT_lepMet',linspace(0,250,(51-1)*nbin_multiplier+1).tolist(),';M_{T}(l,#slash{E}_{T}) [GeV]'),

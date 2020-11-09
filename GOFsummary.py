@@ -39,13 +39,19 @@ folders = [
 # base+'templates_R18_FineBin10_4p'+tail,
 
 base+'templates_R17_StdBinOct20'+tail,
-base+'templates_R18_StdBinOct20'+tail
+base+'templates_R18_StdBinOct20'+tail,
+base+'templates_R17_FineBinOct20'+tail,
+base+'templates_R18_FineBinOct20'+tail,
 
 ]
 
 rebins=[
 '',
 '_rebinned_stat0p3',
+'_no1stbin',
+'_rebinned_stat0p3_no1stbin',
+'_rebinned_stat0p301_10pEvts_no1stbin',
+'_rebinned_stat0p301_10pEvts',
 #'norebin',
 #'rebinned_stat0p3_rebin',
 #'rebinned_stat0p301_noemptybin'
@@ -122,7 +128,8 @@ for f in folders:
 				entry['chi2_stat']=float(cells[10])
 				entry['ndof']=float(cells[11])
 
-
+				entry['no1stbin'] = 'no1stbin' in r 
+				entry['10pEvts'] = '10pEvts' in r
 				# entry['prob_KS']=float(cells[1])
 				# entry['prob_KS_X']=float(cells[2])
 				# entry['prob_chi2']=float(cells[3])
@@ -137,6 +144,8 @@ for f in folders:
 				entry['rank']=rank
 				entry['separation']=separation
 
+				# https://www.dropbox.com/home/fourtops/BDT/R17_StdBinOct20?preview=AK4HT_41p53fb_isE_nB2_nJ4p_logy.png
+				entry['link'] = 'https://www.dropbox.com/home/fourtops/BDT/'+entry['year']+'_StdBinOct20?preview='+entry['variable']+'_'+lumi[entry['year']]+'_is'+entry['lepton']+'_nB'+entry['nB']+'_nJ'+entry['njets']+r+'_logy.png'
 				#https://www.dropbox.com/home/fourtops/BDT/R17_New_StdBin_4p?preview=AK4HT_41p53fb_isE_nB2p_nJ4p_norebin_logy.png
 				# entry['link'] = 'https://www.dropbox.com/home/fourtops/BDT/'+f.replace(base,'').replace(tail,'').replace('templates_','')+'?preview='+entry['variable']+'_'+lumi[entry['year']]+'_is'+entry['lepton']+'_nB'+entry['nB']+'_nJ'+entry['njets']+'_'+r+'_logy.png'
 				# if (year=='R18'):
@@ -157,7 +166,7 @@ c='\t'
 r='\n'
 s='  '
 
-year='R17'
+year='R18'
 # new=True
 
 
@@ -171,13 +180,14 @@ def form(a):
 	else:
 		return "{:.1f}".format(a)
 
-outfile = open("GOF_"+year+"_Oct2020.tsv", "w")
+outfile = open("GOF_"+year+"_NewOct2020.tsv", "w")
 # outfile.write('Channel'+c+'prob_KS 17'+c+'prob_KS_X 17'+c+'prob_chi2 17'+c+
 # 				'chi2 17'+c+'ndof 17'+c+'prob_KS 18'+c+'prob_KS_X 18'+c+
 # 				'prob_chi2 18'+c+'chi2 18'+c+'ndof 18'+c+'link 17'+r) 
-outfile.write('Channel'+c+'prob_chi2'+c+'prob_chi2_stat'+c+'prob_chi2 (norebin)'+c+'prob_chi2_stat (norebin)'+r)#c+'prob_chi2 (norebin)'+c+'prob_chi2_stat (norebin)'+c+
+# outfile.write('Channel'+c+'prob_chi2'+c+'prob_chi2_stat'+c+'prob_chi2 (norebin)'+c+'prob_chi2_stat (norebin)'+r)#c+'prob_chi2 (norebin)'+c+'prob_chi2_stat (norebin)'+c+
 #	'prob_KS'+c+'prob_KS_X'+c+'prob_KS_X_switch'+c+'prob_KS_stat'+c+'prob_KS_X_stat'+c+'prob_KS (fine)'+c+
 #	'prob_KS_X_switch (fine)'+c+'link'+r) 
+outfile.write('Channel'+c+'prob_chi2'+c+'prob_chi2 (10pEvts)'+c+'prob_chi2 (no1stbin)'+c+'prob_chi2 (10pEvts+no1stbin)'+c+'ndof'+c+'ndof (10pEvts)'+c+'prob_chi2 (norebin)'+c+'prob_chi2 (norebin+no1stbin)'+c+'ndof (norebin)'+c+'link (norebin)'+c+'link (std rebin)'+c+'link (10pEvts rebin)'+r)
 for index, row in ranking.iterrows():
 	var=str(row['nameInStep2'])
 	outfile.write(str(row['Rank'])+c+str(row['Variable'])+s+'Sep: '+str(row['Separation'])+r)
@@ -189,21 +199,41 @@ for index, row in ranking.iterrows():
 			# else:
 				# R_norebin_fine = {'prob_KS':'', 'prob_KS_X_switch':''}
 			# print njet,var,lepton,year
-			R_norebin_std = df.loc[(df['isFine']==False) & (df['rebinType']=='norebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
-			R_rebin_std = df.loc[(df['isFine']==False) & (df['rebinType']=='rebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			R_norebin_std = df.loc[ (df['no1stbin']==False) & (df['10pEvts']==False) & (df['isFine']==False) & (df['rebinType']=='norebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			R_norebin_no1stbin = df.loc[ (df['no1stbin']==True) & (df['10pEvts']==False) & (df['isFine']==False) & (df['rebinType']=='norebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			R_rebin_std = df.loc[ (df['no1stbin']==False) & (df['10pEvts']==False) & (df['isFine']==False) & (df['rebinType']=='rebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			R_rebin_no1stbin = df.loc[ (df['no1stbin']==True) & (df['10pEvts']==False) & (df['isFine']==False) & (df['rebinType']=='rebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			R_rebin_10pEvts = df.loc[ (df['no1stbin']==False) & (df['10pEvts']==True) & (df['isFine']==False) & (df['rebinType']=='rebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			R_rebin_10pEvts_no1stbin = df.loc[ (df['no1stbin']==True) & (df['10pEvts']==True) & (df['isFine']==False) & (df['rebinType']=='rebin') & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
+			
 			# R_noemptybin_std = df.loc[(df['isFine']==False) & (df['rebinType']=='noemptybin') & (df['isNew']==new) & (df['njets']==njet[0]) & (df['nB']==njet[1]) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']==year)].iloc[0]
 
 #Categories,  prob_chi2 noempty, prob_chi2_stat noempty,
-			outfile.write(lepton+'_'+njet[0]+'J_'+njet[1]+'B'+c+form(R_rebin_std['prob_chi2'])+c+form(R_rebin_std['prob_chi2_stat'])+c+
+			#outfile.write(lepton+'_'+njet[0]+'J_'+njet[1]+'B'+c+form(R_rebin_std['prob_chi2'])+c+form(R_rebin_std['prob_chi2_stat'])+c+
 			# outfile.write(lepton+'_'+njet[0]+'J_'+njet[1]+'B'+c+form(R_noemptybin_std['prob_chi2'])+c+form(R_noemptybin_std['prob_chi2_stat'])+c+
 #prob_chi2, prob_chi2_stat, 
-form(R_norebin_std['prob_chi2'])+c+form(R_norebin_std['prob_chi2_stat'])+r)
+#form(R_norebin_std['prob_chi2'])+c+form(R_norebin_std['prob_chi2_stat'])+r)
 # form(R_rebin_std['prob_chi2'])+c+form(R_rebin_std['prob_chi2_stat'])+c+
 # form(R_norebin_std['prob_chi2'])+c+form(R_norebin_std['prob_chi2_stat'])+c+
 #prob_KS, prob_KS_X, prob_KS_X_switch, prob_KS_stat, prob_KS_X_stat,
 # form(R_norebin_std['prob_KS'])+c+form(R_norebin_std['prob_KS_X'])+c+form(R_norebin_std['prob_KS_X_switch'])+c+form(R_norebin_std['prob_KS_stat'])+c+form(R_norebin_std['prob_KS_X_stat'])+c+
 #prob_KS fine, prob_KS_X_switch fine
 # form(R_norebin_fine['prob_KS'])+c+form(R_norebin_fine['prob_KS_X_switch'])+c+R_rebin_std['link']+r)
+
+# outfile.write('Channel'+c+'
+			outfile.write(lepton+'_'+njet[0]+'J_'+njet[1]+'B'+c+
+#prob_chi2'+c+'prob_chi2 (10pEvts)'
+form(R_rebin_std['prob_chi2'])+c+form(R_rebin_10pEvts['prob_chi2'])+c+
+#+c+'prob_chi2 (no1stbin)'+c+'prob_chi2 (10pEvts+no1stbin)'
+form(R_rebin_no1stbin['prob_chi2'])+c+form(R_rebin_10pEvts_no1stbin['prob_chi2'])+c+
+#+c+'ndof'+c+'ndof (10pEvts)'+c+
+str(R_rebin_std['ndof'])+c+str(R_rebin_10pEvts['ndof'])+c+
+#'prob_chi2 (norebin)'+c+'prob_chi2 (norebin+no1stbin)'+c
+form(R_norebin_std['prob_chi2'])+c+form(R_norebin_no1stbin['prob_chi2'])+c+
+#+'ndof (norebin)'+r)
+str(R_norebin_std['ndof'])+c+
+#+c+'link (norebin)'+c+'link (std rebin)'+c+'link (10pEvts rebin)'+r)
+R_norebin_std['link']+c+R_rebin_std['link']+c+R_rebin_10pEvts['link']+r)
 
 			# R17= df.loc[(df['njets']==njet) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']=='R17')].iloc[0]
 			# R18= df.loc[(df['njets']==njet) & (df['variable']==var) & (df['lepton']==lepton) & (df['year']=='R18')].iloc[0]

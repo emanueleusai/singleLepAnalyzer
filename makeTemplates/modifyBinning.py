@@ -64,7 +64,7 @@ bkgProcList = ttProcList + ['top','ewk','qcd'] #put the most dominant process fi
 removeSystFromYields = ['hdamp','ue','njet','njetsf'] #list of systematics to be removed from yield errors
 
 minNbins=1 #min number of bins to be merged
-stat = 0.3 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
+stat = 0.301 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
 statThres = 0.05 #statistical uncertainty threshold on total background to assign BB nuisances -- enter 0.0 to assign BB for all bins
 #if len(sys.argv)>1: stat=float(sys.argv[1])
 singleBinCR = False
@@ -111,7 +111,7 @@ elIdSys = 0.03 #electron id uncertainty
 muIdSys = 0.03 #muon id uncertainty
 elIsoSys = 0.0 #electron isolation uncertainty
 muIsoSys = 0.0 #muon isolation uncertainty
-htRwtSys = 0.0
+htRwtSys = 0.05##############################################################
 #njetSys = 0.048
 #if year=='R17': njetSys = 0.075
 elcorrdSys = math.sqrt(lumiSys**2+eltrigSys**2+elIdSys**2+elIsoSys**2+htRwtSys**2)#+njetSys**2)
@@ -187,8 +187,8 @@ for chn in totBkgHists.keys():
 		nBinsMerged+=1
 		#if nBinsMerged<minNbins: continue
 		if nBinsMerged<minNbins or ('_nB2_' in chn and nBinsMerged<4 and (iPlot.startswith('HT') or iPlot=='ST' or iPlot=='BDT')): continue
-		# if totTempBinContent_E>4. and totTempBinContent_M>4. and totDataTempBinContent_E>4. and totDataTempBinContent_M>4.:
-		if totTempBinContent_E>0. and totTempBinContent_M>0. and totDataTempBinContent_E>0. and totDataTempBinContent_M>0.:
+		if totTempBinContent_E>9.99 and totTempBinContent_M>9.99 and totDataTempBinContent_E>0.99 and totDataTempBinContent_M>0.99:
+		# if totTempBinContent_E>0. and totTempBinContent_M>0. and totDataTempBinContent_E>0. and totDataTempBinContent_M>0.:
 			if math.sqrt(totTempBinErrSquared_E)/totTempBinContent_E<=stat and math.sqrt(totTempBinErrSquared_M)/totTempBinContent_M<=stat:
 				totTempBinContent_E = 0.
 				totTempBinContent_M = 0.

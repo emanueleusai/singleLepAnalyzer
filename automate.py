@@ -16,20 +16,20 @@ trainings=[
 'postfix':'StdBinOct20',
 'path':'a'
 },
-# # python doCondorTemplates.py R17 BDT FineBinOct20 /mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_10072020_step2/
-# {
-# 'year':'R17',
-# 'variable':'BDT',
-# 'postfix':'FineBinOct20',
-# 'path':'a'
-# },
+# python doCondorTemplates.py R17 BDT FineBinOct20 /mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_10072020_step2/
+{
+'year':'R17',
+'variable':'BDT',
+'postfix':'FineBinOct20',
+'path':'a'
+},
 # python doCondorTemplates.py R18 BDT FineBinOct20 /mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_10072020_step2/
-# {
-# 'year':'R18',
-# 'variable':'BDT',
-# 'postfix':'FineBinOct20',
-# 'path':'a'
-# },
+{
+'year':'R18',
+'variable':'BDT',
+'postfix':'FineBinOct20',
+'path':'a'
+},
 
 
 # #python doCondorTemplates.py R17 BDT StdBin_4p /mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08122020_step2/
@@ -243,6 +243,10 @@ eval `scramv1 runtime -sh`\n\
 cd '+os.getcwd()+'\n\
 python plotTemplates.py '+train['year']+' '+v+' '+train['postfix']+'\n')
 # python modifyBinning.py '+train['year']+' '+v+' '+train['postfix']+'\n')
+
+
+
+ 
 
 
 # python doTemplates.py '+train['year']+' '+train['postfix']+'\n')#\
