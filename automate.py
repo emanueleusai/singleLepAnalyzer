@@ -42,6 +42,31 @@ for p in postfixes:
 		}
 		trainings.append(tmp)
 
+*Br  418 :DNN_disc_6j_40vars : DNN_disc_6j_40vars/F                          *
+*Entries :  3014862 : Total  Size=   12145559 bytes  File Size  =    1956608 *
+*Baskets :      809 : Basket Size=      15360 bytes  Compression=   6.20     *
+*............................................................................*
+*Br  419 :DNN_disc_6j_50vars : DNN_disc_6j_50vars/F                          *
+*Entries :  2512385 : Total  Size=   10084625 bytes  File Size  =    1885998 *
+*Baskets :      314 : Basket Size=      32000 bytes  Compression=   5.33     *
+*............................................................................*
+*Br  420 :DNN_disc_6j_76vars : DNN_disc_6j_76vars/F                          *
+*Entries :  2009908 : Total  Size=    8067787 bytes  File Size  =    1877530 *
+*Baskets :      251 : Basket Size=      32000 bytes  Compression=   4.28     *
+*............................................................................*
+*Br  421 :DNN_disc_4j_76vars : DNN_disc_4j_76vars/F                          *
+*Entries :  1507431 : Total  Size=    6050949 bytes  File Size  =    1854634 *
+*Baskets :      188 : Basket Size=      32000 bytes  Compression=   3.24     *
+*............................................................................*
+*Br  422 :DNN_disc_4j_50vars : DNN_disc_4j_50vars/F                          *
+*Entries :  1004954 : Total  Size=    4034111 bytes  File Size  =    1845172 *
+*Baskets :      125 : Basket Size=      32000 bytes  Compression=   2.17     *
+*............................................................................*
+*Br  423 :DNN_disc_4j_40vars : DNN_disc_4j_40vars/F                          *
+*Entries :   502477 : Total  Size=    2017273 bytes  File Size  =    1792883 *
+*Baskets :       62 : Basket Size=      32000 bytes  Compression=   1.11     *
+*............................................................................*
+
 combinations = [
 # {
 # 	'variable':'BDT',
