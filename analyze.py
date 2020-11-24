@@ -20,6 +20,9 @@ def analyze(tTree,process,flv,cutList,doAllSys,doPDF,iPlot,plotDetails,catStr,re
 	print "            -name in ljmet trees:", plotDetails[0]
 	print "            -x-axis label is set to:", plotDetails[2]
 	print "            -using the binning as:", plotDetails[1]
+
+	for ttt in tTree:
+		print 'bbbbbbb',ttt,tTree[ttt].GetEntries()
 	plotTreeName=plotDetails[0]
 	xbins=array('d', plotDetails[1])
 	xAxisLabel=plotDetails[2]
@@ -154,9 +157,9 @@ def analyze(tTree,process,flv,cutList,doAllSys,doPDF,iPlot,plotDetails,catStr,re
 # 1.01002610312*(NJets_JetSubCalc==5)+\
 # 1.01089700843*(NJets_JetSubCalc>=6)\
 # )'
-
+#* btagCSVWeight * btagCSVRenormWeight
 	if 'Data' not in process:
-		weightStr          += ' * '+TrigSF+' * btagCSVWeight * btagCSVRenormWeight * pileupWeight * lepIdSF * EGammaGsfSF * isoSF * L1NonPrefiringProb_CommonCalc * (MCWeight_MultiLepCalc/abs(MCWeight_MultiLepCalc)) * '+str(weight[process])
+		weightStr          += ' * '+TrigSF+' * pileupWeight * lepIdSF * EGammaGsfSF * isoSF * L1NonPrefiringProb_CommonCalc * (MCWeight_MultiLepCalc/abs(MCWeight_MultiLepCalc)) * '+str(weight[process])
 		weightStrNoNjet = weightStr
 		#weightStr = njetStr + ' * ' + weightStr #UNCOMMENT HERE TO APPLY NJET SF!!!!!!!
 		weightTriggerUpStr  = weightStr.replace(TrigSF,'('+TrigSF+'+'+TrigSF+'Uncert)')
@@ -410,5 +413,8 @@ def analyze(tTree,process,flv,cutList,doAllSys,doPDF,iPlot,plotDetails,catStr,re
 				tTree[process].Draw(plotTreeName+' >> '+iPlot+'pdf'+str(i)+'_'+lumiStr+'_'+catStr+'_'+process+flv, 'pdfWeights['+str(i)+'] * '+weightStr+'*('+fullcut+')', 'GOFF')
 			print '/ 100 ... PDF done.'
 	
+	for hist in hists.keys():
+		print 'aaaaa',hist, hists[hist].Integral()
+
 	for hist in hists.keys(): hists[hist].SetDirectory(0)
 	return hists

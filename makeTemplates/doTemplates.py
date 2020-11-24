@@ -260,9 +260,11 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 				Nttbb = hists['ttbb'+i].Integral()
 				Nttnobb = 0.
 				for tt in ttbarGrupList:
-					if tt!='ttbb': Nttnobb += hists[tt+i].Integral()
+					if tt!='ttbb':
+						Nttnobb += hists[tt+i].Integral()
+						print hists[tt+i],tt+i, hists[tt+i].Integral()
 				ttLFsf_ = ttLFsf
-				if ttLFsf==-1: ttLFsf_ = 1. + ( 1-ttHFsf ) * ( Nttbb/Nttnobb )
+				#if ttLFsf==-1: ttLFsf_ = 1. + ( 1-ttHFsf ) * ( Nttbb/Nttnobb )
 				hists['ttbb'+i].Scale(ttHFsf)
 				for tt in list(set(ttbarProcList+ttbarGrupList)):
 					if tt!='ttbb': hists[tt+i].Scale(ttLFsf_)
@@ -721,55 +723,58 @@ for iPlot in iPlotList:
 		bkghists.update(pickle.load(open(outDir+'/'+cat[2:]+'/bkghists_'+iPlot+'.p','rb')))
 		sighists.update(pickle.load(open(outDir+'/'+cat[2:]+'/sighists_'+iPlot+'.p','rb')))
 	
-	#Re-scale lumi
-	if lumiScaleCoeff!=1.:
-		print "       SCALING LUMINOSITY BY A FACTOR OF",lumiScaleCoeff,gettime()
-		for key in bkghists.keys(): bkghists[key].Scale(lumiScaleCoeff)
-		for key in sighists.keys(): sighists[key].Scale(lumiScaleCoeff)
+	for key in bkghists.keys():
+		print 'blabla',bkghists[key].Integral()
+
+	# #Re-scale lumi
+	# if lumiScaleCoeff!=1.:
+	# 	print "       SCALING LUMINOSITY BY A FACTOR OF",lumiScaleCoeff,gettime()
+	# 	for key in bkghists.keys(): bkghists[key].Scale(lumiScaleCoeff)
+	# 	for key in sighists.keys(): sighists[key].Scale(lumiScaleCoeff)
 	
-	#Rebin
-	if rebinBy>0:
-		print "       REBINNING HISTOGRAMS: MERGING",rebinBy,"BINS ...",gettime()
-		for data in datahists.keys(): datahists[data] = datahists[data].Rebin(rebinBy)
-		for bkg in bkghists.keys():   bkghists[bkg] = bkghists[bkg].Rebin(rebinBy)
-		for sig in sighists.keys():   sighists[sig] = sighists[sig].Rebin(rebinBy)
+	# #Rebin
+	# if rebinBy>0:
+	# 	print "       REBINNING HISTOGRAMS: MERGING",rebinBy,"BINS ...",gettime()
+	# 	for data in datahists.keys(): datahists[data] = datahists[data].Rebin(rebinBy)
+	# 	for bkg in bkghists.keys():   bkghists[bkg] = bkghists[bkg].Rebin(rebinBy)
+	# 	for sig in sighists.keys():   sighists[sig] = sighists[sig].Rebin(rebinBy)
 
- 	#Negative Bin Correction
- 	print "       CORRECTING NEGATIVE BINS ...",gettime()
- 	count=0
- 	for bkg in bkghists.keys(): 
- 		if count%100000==0: print "       ",round(count*100/len(bkghists.keys()))
- 		negBinCorrection(bkghists[bkg])
- 		count+=1
- 	count=0
- 	for sig in sighists.keys(): 
- 		if count%100000==0: print "       ",round(count*100/len(sighists.keys()))
- 		negBinCorrection(sighists[sig])
- 		count+=1
+ # 	#Negative Bin Correction
+ # 	print "       CORRECTING NEGATIVE BINS ...",gettime()
+ # 	count=0
+ # 	for bkg in bkghists.keys(): 
+ # 		if count%100000==0: print "       ",round(count*100/len(bkghists.keys()))
+ # 		negBinCorrection(bkghists[bkg])
+ # 		count+=1
+ # 	count=0
+ # 	for sig in sighists.keys(): 
+ # 		if count%100000==0: print "       ",round(count*100/len(sighists.keys()))
+ # 		negBinCorrection(sighists[sig])
+ # 		count+=1
 
- 	#OverFlow Correction
- 	print "       CORRECTING OVER(UNDER)FLOW BINS ...",gettime()
- 	count=0
- 	for data in datahists.keys(): 
- 		if count%100000==0: print "       ",round(count*100/len(datahists.keys()))
- 		overflow(datahists[data])
- 		underflow(datahists[data])
- 		count+=1
- 	count=0
- 	for bkg in bkghists.keys():
- 		if count%100000==0: print "       ",round(count*100/len(bkghists.keys()))
- 		overflow(bkghists[bkg])
- 		underflow(bkghists[bkg])
- 		count+=1
- 	count=0
- 	for sig in sighists.keys():
- 		if count%100000==0: print "       ",round(count*100/len(sighists.keys()))
- 		overflow(sighists[sig])
- 		underflow(sighists[sig])
- 		count+=1
+ # 	#OverFlow Correction
+ # 	print "       CORRECTING OVER(UNDER)FLOW BINS ...",gettime()
+ # 	count=0
+ # 	for data in datahists.keys(): 
+ # 		if count%100000==0: print "       ",round(count*100/len(datahists.keys()))
+ # 		overflow(datahists[data])
+ # 		underflow(datahists[data])
+ # 		count+=1
+ # 	count=0
+ # 	for bkg in bkghists.keys():
+ # 		if count%100000==0: print "       ",round(count*100/len(bkghists.keys()))
+ # 		overflow(bkghists[bkg])
+ # 		underflow(bkghists[bkg])
+ # 		count+=1
+ # 	count=0
+ # 	for sig in sighists.keys():
+ # 		if count%100000==0: print "       ",round(count*100/len(sighists.keys()))
+ # 		overflow(sighists[sig])
+ # 		underflow(sighists[sig])
+ # 		count+=1
 
-	print "       STARTING TO PRODUCE TEMPLATES ...",gettime()
-	makeCatTemplates(datahists,sighists,bkghists,iPlot)
+	# print "       STARTING TO PRODUCE TEMPLATES ...",gettime()
+	# makeCatTemplates(datahists,sighists,bkghists,iPlot)
 
 print("--- %s minutes ---" % (round((time.time() - start_time)/60,2)))
 

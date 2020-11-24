@@ -1,24 +1,36 @@
 import os
 
-years=['17','18']
+# years=['17','18']
 
 # FWLJMET102X_1lep2017_Oct2019_4t_11072020_step3_40vars_4j/
 
-postfixes=[
-'40vars_4j',
-'40vars_6j',
-'50vars_4j',
-'50vars_6j',
-'73vars_4j',
-'73vars_6j'
-]
+# postfixes=[
+# '40vars_4j',
+# '40vars_6j',
+# '50vars_4j',
+# '50vars_6j',
+# '73vars_4j',
+# '73vars_6j'
+# ]
 
 trainings=[
+{
+'year':'R17',
+'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+'postfix':'DNN1l',
+'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08122020_step3_DNN/'
+},
+{
+'year':'R17',
+'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+'postfix':'DNN1k',
+'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08122020_step3_DNN/'
+},
 # {
-# 'year':'R17',
-# 'variable':['BDT'],
-# 'postfix':'66vars_4j_pt20',
-# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_66vars_mDepth2_4j_year2017/'
+# 'year':'R18',
+# 'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+# 'postfix':'DNN1l',
+# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08122020_step3_DNN/'
 # },
 ]
 
@@ -32,40 +44,43 @@ trainings=[
 # 		}
 # 		trainings.append(tmp)
 
-for p in postfixes:
-	for y in years:
-		tmp={
-		'year':'R'+y,
-		'variable':['BDT'],
-		'postfix':'11072020k_'+p,
-		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
-		}
-		trainings.append(tmp)
+# for p in postfixes:
+# 	for y in years:
+# 		tmp={
+# 		'year':'R'+y,
+# 		'variable':['BDT'],
+# 		'postfix':'11072020k_'+p,
+# 		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+# 		}
+# 		trainings.append(tmp)
 
-*Br  418 :DNN_disc_6j_40vars : DNN_disc_6j_40vars/F                          *
-*Entries :  3014862 : Total  Size=   12145559 bytes  File Size  =    1956608 *
-*Baskets :      809 : Basket Size=      15360 bytes  Compression=   6.20     *
-*............................................................................*
-*Br  419 :DNN_disc_6j_50vars : DNN_disc_6j_50vars/F                          *
-*Entries :  2512385 : Total  Size=   10084625 bytes  File Size  =    1885998 *
-*Baskets :      314 : Basket Size=      32000 bytes  Compression=   5.33     *
-*............................................................................*
-*Br  420 :DNN_disc_6j_76vars : DNN_disc_6j_76vars/F                          *
-*Entries :  2009908 : Total  Size=    8067787 bytes  File Size  =    1877530 *
-*Baskets :      251 : Basket Size=      32000 bytes  Compression=   4.28     *
-*............................................................................*
-*Br  421 :DNN_disc_4j_76vars : DNN_disc_4j_76vars/F                          *
-*Entries :  1507431 : Total  Size=    6050949 bytes  File Size  =    1854634 *
-*Baskets :      188 : Basket Size=      32000 bytes  Compression=   3.24     *
-*............................................................................*
-*Br  422 :DNN_disc_4j_50vars : DNN_disc_4j_50vars/F                          *
-*Entries :  1004954 : Total  Size=    4034111 bytes  File Size  =    1845172 *
-*Baskets :      125 : Basket Size=      32000 bytes  Compression=   2.17     *
-*............................................................................*
-*Br  423 :DNN_disc_4j_40vars : DNN_disc_4j_40vars/F                          *
-*Entries :   502477 : Total  Size=    2017273 bytes  File Size  =    1792883 *
-*Baskets :       62 : Basket Size=      32000 bytes  Compression=   1.11     *
-*............................................................................*
+# FWLJMET102X_1lep2018_Oct2019_4t_08122020_step3_DNN
+# FWLJMET102X_1lep2017_Oct2019_4t_08122020_step3_DNN 
+
+# *Br  418 :DNN_disc_6j_40vars : DNN_disc_6j_40vars/F                          *
+# *Entries :  3014862 : Total  Size=   12145559 bytes  File Size  =    1956608 *
+# *Baskets :      809 : Basket Size=      15360 bytes  Compression=   6.20     *
+# *............................................................................*
+# *Br  419 :DNN_disc_6j_50vars : DNN_disc_6j_50vars/F                          *
+# *Entries :  2512385 : Total  Size=   10084625 bytes  File Size  =    1885998 *
+# *Baskets :      314 : Basket Size=      32000 bytes  Compression=   5.33     *
+# *............................................................................*
+# *Br  420 :DNN_disc_6j_76vars : DNN_disc_6j_76vars/F                          *
+# *Entries :  2009908 : Total  Size=    8067787 bytes  File Size  =    1877530 *
+# *Baskets :      251 : Basket Size=      32000 bytes  Compression=   4.28     *
+# *............................................................................*
+# *Br  421 :DNN_disc_4j_76vars : DNN_disc_4j_76vars/F                          *
+# *Entries :  1507431 : Total  Size=    6050949 bytes  File Size  =    1854634 *
+# *Baskets :      188 : Basket Size=      32000 bytes  Compression=   3.24     *
+# *............................................................................*
+# *Br  422 :DNN_disc_4j_50vars : DNN_disc_4j_50vars/F                          *
+# *Entries :  1004954 : Total  Size=    4034111 bytes  File Size  =    1845172 *
+# *Baskets :      125 : Basket Size=      32000 bytes  Compression=   2.17     *
+# *............................................................................*
+# *Br  423 :DNN_disc_4j_40vars : DNN_disc_4j_40vars/F                          *
+# *Entries :   502477 : Total  Size=    2017273 bytes  File Size  =    1792883 *
+# *Baskets :       62 : Basket Size=      32000 bytes  Compression=   1.11     *
+# *............................................................................*
 
 combinations = [
 # {
@@ -74,12 +89,12 @@ combinations = [
 # }
 ]
 
-for p in postfixes:
-	tmp={
-	'variable':'BDT',
-	'postfix':'11072020l_'+p
-	}
-	combinations.append(tmp)
+# for p in postfixes:
+# 	tmp={
+# 	'variable':'BDT',
+# 	'postfix':'11072020l_'+p
+# 	}
+# 	combinations.append(tmp)
 
 #which step would you like to run?
 #1 doCondorTemplates

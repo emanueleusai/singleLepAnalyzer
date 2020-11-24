@@ -170,6 +170,7 @@ def readTree(file):
 		os._exit(1)
 	tFile = TFile(file,'READ')
 	tTree = tFile.Get('ljmet')
+	print 'aaaaaaa',tTree.GetEntries()
 	return tFile, tTree 
 
 bigbins = [0,50,100,125,150,175,200,225,250,275,300,325,350,375,400,450,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2500,3000,3500,4000,5000]
@@ -295,6 +296,14 @@ plotList = {#discriminantName:(discriminantLJMETName, binning, xAxisLabel)
 	'minMlb':('minMleppBjet',linspace(0, 1000, 101).tolist(),';min[M(l,b)] [GeV]'),
 	'minMlbSBins':('minMleppBjet',linspace(0, 1000, 1001).tolist(),';min[M(l,b)] [GeV]'),
 	'BDT':('BDT',linspace(-1, 1, 201).tolist(),';BDT'),
+
+	'DNN_disc_6j_40vars':('DNN_disc_6j_40vars',linspace(0, 1, 201).tolist(),';DNN'),
+	'DNN_disc_6j_50vars':('DNN_disc_6j_50vars',linspace(0, 1, 201).tolist(),';DNN'),
+	'DNN_disc_6j_76vars':('DNN_disc_6j_76vars',linspace(0, 1, 201).tolist(),';DNN'),
+	'DNN_disc_4j_40vars':('DNN_disc_4j_40vars',linspace(0, 1, 201).tolist(),';DNN'),
+	'DNN_disc_4j_50vars':('DNN_disc_4j_50vars',linspace(0, 1, 201).tolist(),';DNN'),
+	'DNN_disc_4j_76vars':('DNN_disc_4j_76vars',linspace(0, 1, 201).tolist(),';DNN'),
+
 	}
 
 print "PLOTTING:",iPlot
