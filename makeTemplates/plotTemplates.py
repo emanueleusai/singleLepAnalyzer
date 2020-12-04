@@ -276,6 +276,7 @@ for catEStr in catsElist:
 		totBkgTemp1[catStr] = rt.TGraphAsymmErrors(bkgHT.Clone(bkgHT.GetName()+'shapeOnly'))
 		totBkgTemp2[catStr] = rt.TGraphAsymmErrors(bkgHT.Clone(bkgHT.GetName()+'shapePlusNorm'))
 		totBkgTemp3[catStr] = rt.TGraphAsymmErrors(bkgHT.Clone(bkgHT.GetName()+'All'))
+		zero_bin=bkgHT.FindBin(0)
 		
 		for ibin in range(1,bkghists[bkgProcList[0]+catStr].GetNbinsX()+1):
 			errorUp = 0.
@@ -307,6 +308,9 @@ for catEStr in catsElist:
 			totBkgTemp2[catStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 			totBkgTemp3[catStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 			totBkgTemp3[catStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
+			if 'BDT' in iPlot and ibin>=zero_bin:
+				totBkgTemp3[catStr].SetPointEYhigh(ibin-1,0)
+				totBkgTemp3[catStr].SetPointEYlow(ibin-1, 0)
 			
 		for ibin in range(1, bkgHT_test.GetNbinsX()+1):
 			bkgHT_test.SetBinError(ibin,(totBkgTemp3[catStr].GetErrorYlow(ibin-1) + totBkgTemp3[catStr].GetErrorYhigh(ibin-1))/2 )
@@ -659,7 +663,7 @@ for catEStr in catsElist:
 		if doOneBand: savePrefix+='_totBand'
 
 		c1.SaveAs(savePrefix+'.png')
-		c1.SaveAs(savePrefix+'.pdf')
+		#c1.SaveAs(savePrefix+'.pdf')
 # 		c1.SaveAs(savePrefix+'.eps')
 # 		c1.SaveAs(savePrefix+'.root')
 # 		c1.SaveAs(savePrefix+'.C')
@@ -1075,7 +1079,7 @@ for catEStr in catsElist:
 	if doOneBand: savePrefixmerged+='_totBand'
 
 	c1merged.SaveAs(savePrefixmerged+'.png')
-	c1merged.SaveAs(savePrefixmerged+'.pdf')
+	#c1merged.SaveAs(savePrefixmerged+'.pdf')
 # 	c1merged.SaveAs(savePrefixmerged+'.eps')
 # 	c1merged.SaveAs(savePrefixmerged+'.root')
 # 	c1merged.SaveAs(savePrefixmerged+'.C')

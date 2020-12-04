@@ -257,6 +257,11 @@ for rfile in rfiles:
 			rebinnedHists[hist].SetDirectory(0)
 			overflow(rebinnedHists[hist])
 			underflow(rebinnedHists[hist])
+			if 'BDT' in hist:
+				zero_bin=rebinnedHists[hist].FindBin(0)
+				max_bin=rebinnedHists[hist].GetNbinsX()+1
+				for imtt in range(zero_bin,max_bin):
+					rebinnedHists[hist].SetBinContent(imtt,0)
 			if '__pdf' in hist:
 				if upTag not in hist and downTag not in hist: continue
 			if '__mu' in hist or '__isr' in hist or '__fsr' in hist: continue
@@ -487,6 +492,13 @@ for rfile in rfiles:
 				pdfDnHist2 = pdfDnHist.Clone(hist.replace('pdf0',PDFName+'_'+year+downTag))
 				pdfUpHist2.Write()
 				pdfDnHist2.Write()
+
+		for hist in rebinnedHists:
+			if 'BDT' in hist:
+				zero_bin=rebinnedHists[hist].FindBin(0)
+				max_bin=rebinnedHists[hist].GetNbinsX()+1
+				for imtt in range(zero_bin,max_bin):
+					rebinnedHists[hist].SetBinContent(imtt,0)
 
 	tfiles[iRfile].Close()
 	outputRfiles[iRfile].Close()

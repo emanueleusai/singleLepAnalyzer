@@ -1,17 +1,18 @@
   
 import os
 
-years=['17','18']
+# years=['17','18']
+years=['18']
 
 # FWLJMET102X_1lep2017_Oct2019_4t_11072020_step3_40vars_4j/
 
 postfixes=[
-'40vars_4j',
+# '40vars_4j',
 '40vars_6j',
-'50vars_4j',
-'50vars_6j',
-'73vars_4j',
-'73vars_6j'
+# '50vars_4j',
+# '50vars_6j',
+# '73vars_4j',
+# '73vars_6j'
 ]
 
 trainings=[
@@ -23,15 +24,66 @@ trainings=[
 # },
 ]
 
-for p in postfixes:
-	for y in years:
-		tmp={
-		'year':'R'+y,
-		'variable':['BDT'],
-		'postfix':'11072020l2_'+p,
-		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
-		}
-		trainings.append(tmp)
+vrs=['BDT',
+'thirdcsvb_bb',
+'fourthcsvb_bb',
+'NJetsCSVwithSF_MultiLepCalc',
+'NJets_JetSubCalc',
+'BDTtrijet2',
+'AK4HTpMETpLepPt',
+'sixthJetPt',
+'PtFifthJet',
+'hemiout',
+'AK4HT'
+]
+
+
+# for p in postfixes:
+# 	for y in years:
+# 		# tmp={
+# 		# 'year':'R'+y,
+# 		# 'variable':vrs,
+# 		# 'postfix':'11072020k4_'+p,
+# 		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+# 		# }
+# 		# trainings.append(tmp)
+# 		tmp={
+# 		'year':'R'+y,
+# 		'variable':vrs,
+# 		'postfix':'11072020k4HLTmu_'+p,
+# 		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+# 		}
+# 		trainings.append(tmp)
+# 		# tmp={
+# 		# 'year':'R'+y,
+# 		# 'variable':vrs,
+# 		# 'postfix':'11072020k3noHLTmu_'+p,
+# 		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+# 		# }
+# 		# trainings.append(tmp)
+
+
+
+trainings=[
+{
+'year':'R17',
+'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+'postfix':'DNN2l',
+'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_10072020_step3_DNN/'
+},
+# {
+# 'year':'R17',
+# 'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+# 'postfix':'DNN2k',
+# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_10072020_step3_DNN/'
+# },
+# {
+# 'year':'R18',
+# 'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+# 'postfix':'DNN1l',
+# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08122020_step3_DNN/'
+# },
+]
 
 # for p in postfixes:
 # 	for y in years:
@@ -64,7 +116,7 @@ for p in postfixes:
 #4 dataCard + limit + significance
 #5 combination limit + significance
 #6 print results
-step=6
+step=1
 
 if step==1:
 	os.chdir('makeTemplates')

@@ -262,7 +262,12 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 				for tt in ttbarGrupList:
 					if tt!='ttbb': Nttnobb += hists[tt+i].Integral()
 				ttLFsf_ = ttLFsf
-				if ttLFsf==-1: ttLFsf_ = 1. + ( 1-ttHFsf ) * ( Nttbb/Nttnobb )
+				ttLFsf_ = 1.
+				if ttLFsf==-1:
+					try:
+						ttLFsf_ = 1. + ( 1-ttHFsf ) * ( Nttbb/Nttnobb )
+					except ZeroDivisionError:
+						ttLFsf_ = 1.
 				hists['ttbb'+i].Scale(ttHFsf)
 				for tt in list(set(ttbarProcList+ttbarGrupList)):
 					if tt!='ttbb': hists[tt+i].Scale(ttLFsf_)

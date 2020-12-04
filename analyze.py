@@ -58,7 +58,7 @@ def analyze(tTree,process,flv,cutList,doAllSys,doPDF,iPlot,plotDetails,catStr,re
 	TrigSF   = 'triggerXSF'
 	TrigSFUp = '1'
 	TrigSFDn = '1'
-	cut += ' && DataPastTriggerX == 1 && MCPastTriggerX == 1' # CROSS triggers (i.e., VLQ triggers)
+	cut += ' && DataPastTriggerX == 1 && MCPastTriggerX == 1'#&& ( ( HLT_Mu15_IsoVVVL_PFHT450 == 1 ) || ( HLT_Ele15_IsoVVVL_PFHT450 == 1 ) )' # CROSS triggers (i.e., VLQ triggers)
 	#cut += ' && DataPastTrigger == 1 && MCPastTrigger == 1' # Lep+Had triggers
 	#cut += ' && DataPastTrigger == 1 && MCLepPastTrigger == 1' # Lep triggers only
 	#cut += ' && DataHadPastTrigger == 1 && MCHadPastTrigger == 1' # Had triggers only
