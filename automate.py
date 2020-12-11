@@ -40,27 +40,27 @@ vrs=['BDT',
 
 # for p in postfixes:
 # 	for y in years:
-# 		# tmp={
-# 		# 'year':'R'+y,
-# 		# 'variable':vrs,
-# 		# 'postfix':'11072020k4_'+p,
-# 		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
-# 		# }
-# 		# trainings.append(tmp)
-# 		tmp={
-# 		'year':'R'+y,
-# 		'variable':vrs,
-# 		'postfix':'11072020k4HLTmu_'+p,
-# 		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
-# 		}
-# 		trainings.append(tmp)
-# 		# tmp={
-# 		# 'year':'R'+y,
-# 		# 'variable':vrs,
-# 		# 'postfix':'11072020k3noHLTmu_'+p,
-# 		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
-# 		# }
-# 		# trainings.append(tmp)
+		# tmp={
+		# 'year':'R'+y,
+		# 'variable':vrs,
+		# 'postfix':'11072020k4_'+p,
+		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+		# }
+		# trainings.append(tmp)
+		# tmp={
+		# 'year':'R'+y,
+		# 'variable':vrs,
+		# 'postfix':'11072020k4HLTmu_'+p,
+		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+		# }
+		# trainings.append(tmp)
+		# tmp={
+		# 'year':'R'+y,
+		# 'variable':vrs,
+		# 'postfix':'11072020k3noHLTmu_'+p,
+		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_Oct2019_4t_11072020_step3_'+p+'/'
+		# }
+		# trainings.append(tmp)
 
 
 
@@ -77,11 +77,17 @@ trainings=[
 # 'postfix':'DNN2k',
 # 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_10072020_step3_DNN/'
 # },
+{
+'year':'R18',
+'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
+'postfix':'DNN2l',
+'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_10072020_step3_DNN/'
+},
 # {
 # 'year':'R18',
 # 'variable':['DNN_disc_6j_40vars','DNN_disc_6j_50vars','DNN_disc_6j_76vars','DNN_disc_4j_40vars','DNN_disc_4j_50vars','DNN_disc_4j_76vars'],
-# 'postfix':'DNN1l',
-# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08122020_step3_DNN/'
+# 'postfix':'DNN2k',
+# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_10072020_step3_DNN/'
 # },
 ]
 
@@ -102,12 +108,41 @@ combinations = [
 # }
 ]
 
-for p in postfixes:
-	tmp={
-	'variable':'BDT',
-	'postfix':'11072020l2_'+p
-	}
-	combinations.append(tmp)
+# for p in postfixes:
+# 	tmp={
+# 	'variable':'BDT',
+# 	'postfix':'11072020l2_'+p
+# 	}
+# 	combinations.append(tmp)
+
+
+combinations = [
+{
+	'variable':'DNN_disc_6j_40vars',
+	'postfix':'DNN2l',
+},
+{
+	'variable':'DNN_disc_6j_50vars',
+	'postfix':'DNN2l',
+},
+{
+	'variable':'DNN_disc_6j_76vars',
+	'postfix':'DNN2l',
+},
+{
+	'variable':'DNN_disc_4j_40vars',
+	'postfix':'DNN2l',
+},
+{
+	'variable':'DNN_disc_4j_50vars',
+	'postfix':'DNN2l',
+},
+{
+	'variable':'DNN_disc_4j_76vars',
+	'postfix':'DNN2l',
+},
+]
+
 
 #which step would you like to run?
 #1 doCondorTemplates
@@ -116,7 +151,7 @@ for p in postfixes:
 #4 dataCard + limit + significance
 #5 combination limit + significance
 #6 print results
-step=1
+step=6
 
 if step==1:
 	os.chdir('makeTemplates')
