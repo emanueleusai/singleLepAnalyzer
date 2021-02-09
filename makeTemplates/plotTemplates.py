@@ -32,7 +32,7 @@ elif region=='TTCR': pfix='ttbar_'+year
 if not isCategorized: pfix='kinematics_'+region+'_'+year
 templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
-isRebinned='_rebinned_stat0p3' #post for ROOT file names
+isRebinned= ''#'_rebinned_stat0p3'#'_rebinned_stat0p3' #post for ROOT file names
 saveKey = '' # tag for plot names
 
 sig='tttt' #  choose the 1st signal to plot
@@ -51,7 +51,7 @@ elif 'tttt' in sig: bkgHistColors = {'tt2b':rt.kRed+3,'tt1b':rt.kRed-3,'ttbj':rt
 elif 'HTB' in sig: bkgHistColors = {'ttbar':rt.kGreen-3,'wjets':rt.kPink-4,'top':rt.kAzure+8,'ewk':rt.kMagenta-2,'qcd':rt.kOrange+5} #HTB
 else: bkgHistColors = {'top':rt.kAzure+8,'ewk':rt.kMagenta-2,'qcd':rt.kOrange+5} #TT
 
-systematicList = ['pileup','prefire','btag','mistag','jec','jer','PSwgt','muRF','pdf', 'CSVshapelf', 'CSVshapehf']#'hotstat','hotcspur','hotclosure',#,'njet','hdamp','ue','ht','trigeff','toppt','tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt']
+systematicList = ['pileup','prefire','jec','jer','PSwgt','muRF','pdf', 'CSVshapelf', 'CSVshapehf']#,'mistag'#'btag'#'hotstat','hotcspur','hotclosure',#,'njet','hdamp','ue','ht','trigeff','toppt','tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt']
 doAllSys = True
 doQ2sys  = False
 if not doAllSys: doQ2sys = False
@@ -148,7 +148,7 @@ def formatUpperHist(histogram,histogramBkg):
 		if 'YLD' in iPlot: 
 			histogram.SetMaximum(2e3*histogramBkg.GetMaximum())
 			histogram.SetMinimum(0.101)
-		else: histogram.SetMaximum(2e2*histogramBkg.GetMaximum())
+		else: histogram.SetMaximum(2e4*histogramBkg.GetMaximum())
 	else: 
 		if 'YLD' in iPlot: histogram.SetMaximum(1.3*histogramBkg.GetMaximum())
 		else: histogram.SetMaximum(1.3*histogramBkg.GetMaximum())
@@ -308,7 +308,11 @@ for catEStr in catsElist:
 			totBkgTemp2[catStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 			totBkgTemp3[catStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 			totBkgTemp3[catStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
-			if 'BDT' in iPlot and ibin>=zero_bin:
+			if iPlot=='BDT' and ibin>=zero_bin:
+				totBkgTemp3[catStr].SetPointEYhigh(ibin-1,0)
+				totBkgTemp3[catStr].SetPointEYlow(ibin-1, 0)
+
+			if iPlot=='NJets_JetSubCalc' and ibin>=bkgHT.FindBin(9):
 				totBkgTemp3[catStr].SetPointEYhigh(ibin-1,0)
 				totBkgTemp3[catStr].SetPointEYlow(ibin-1, 0)
 			

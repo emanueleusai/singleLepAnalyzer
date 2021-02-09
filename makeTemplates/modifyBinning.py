@@ -63,7 +63,7 @@ ttProcList = ['ttnobb','ttbb'] # ['ttjj','ttcc','ttbb','ttbj']
 bkgProcList = ttProcList + ['top','ewk','qcd'] #put the most dominant process first
 removeSystFromYields = ['hdamp','ue','njet','njetsf'] #list of systematics to be removed from yield errors
 
-minNbins=1 #min number of bins to be merged
+minNbins=2 #min number of bins to be merged
 stat = 0.3 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
 statThres = 0.05 #statistical uncertainty threshold on total background to assign BB nuisances -- enter 0.0 to assign BB for all bins
 #if len(sys.argv)>1: stat=float(sys.argv[1])
@@ -91,6 +91,27 @@ if iPlot=='BDT' and stat<1.:
 	minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
 	xMin = -1
 	xMax = 1
+
+if iPlot=='NJets_JetSubCalc' and stat<1.: 
+	minNbins=1 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+	stat=1.1
+if iPlot=='BDTtrijet2' and stat<1.: 
+	minNbins=1 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+	stat=1.1
+if iPlot=='NJetsCSV_MultiLepCalc' and stat<1.: 
+	minNbins=1 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+	stat=1.1
+
+# if iPlot=='NJetsCSV_MultiLepCalc' and stat<1.: 
+# 	minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+# 	stat=1.1
+# if iPlot=='NJetsCSV_MultiLepCalc' and stat<1.: 
+# 	minNbins=1 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+# 	stat=1.1
+
+# 	thirdcsvb_bb
+# 	fourthcsvb_bb
+
 		
 if rebinCombine:
 	dataName = 'data_obs'
@@ -231,6 +252,11 @@ print "//"*40
 print "==> Total number of bins =",totNbins
 print "//"*40
 
+##################################################################
+stat=0.3
+##################################################################
+
+
 xbins = {}
 for key in xbinsList.keys(): xbins[key] = array('d', xbinsList[key])
 
@@ -257,8 +283,13 @@ for rfile in rfiles:
 			rebinnedHists[hist].SetDirectory(0)
 			overflow(rebinnedHists[hist])
 			underflow(rebinnedHists[hist])
-			if 'BDT' in hist:
+			if 'BDT_' in hist:
 				zero_bin=rebinnedHists[hist].FindBin(0)
+				max_bin=rebinnedHists[hist].GetNbinsX()+1
+				for imtt in range(zero_bin,max_bin):
+					rebinnedHists[hist].SetBinContent(imtt,0)
+			if 'NJets_JetSubCalc' in hist:
+				zero_bin=rebinnedHists[hist].FindBin(9)
 				max_bin=rebinnedHists[hist].GetNbinsX()+1
 				for imtt in range(zero_bin,max_bin):
 					rebinnedHists[hist].SetBinContent(imtt,0)
@@ -494,8 +525,13 @@ for rfile in rfiles:
 				pdfDnHist2.Write()
 
 		for hist in rebinnedHists:
-			if 'BDT' in hist:
+			if 'BDT_' in hist:
 				zero_bin=rebinnedHists[hist].FindBin(0)
+				max_bin=rebinnedHists[hist].GetNbinsX()+1
+				for imtt in range(zero_bin,max_bin):
+					rebinnedHists[hist].SetBinContent(imtt,0)
+			if 'NJets_JetSubCalc' in hist:
+				zero_bin=rebinnedHists[hist].FindBin(9)
 				max_bin=rebinnedHists[hist].GetNbinsX()+1
 				for imtt in range(zero_bin,max_bin):
 					rebinnedHists[hist].SetBinContent(imtt,0)

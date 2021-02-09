@@ -165,6 +165,7 @@ from math import log10, floor, ceil
 
 def round_sig(x, sig):
     if x==0: return 0
+    #if x<0.00000001: return 0
 
     result=round(x, sig-int(floor(log10(x)))-1)
     if ceil(log10(x)) >= sig: result=int(result)

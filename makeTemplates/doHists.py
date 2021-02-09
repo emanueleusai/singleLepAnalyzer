@@ -298,6 +298,7 @@ plotList = {#discriminantName:(discriminantLJMETName, binning, xAxisLabel)
 	'minMlbSBins':('minMleppBjet',linspace(0, 1000, 1001).tolist(),';min[M(l,b)] [GeV]'),
 	'BDT':('BDT',linspace(-1, 1, 201).tolist(),';BDT'),
 
+	'NJetsCSV_MultiLepCalc':('NJetsCSV_MultiLepCalc',linspace(0, 10, (11-1)*nbin_multiplier+1).tolist(),';b-tagged jet mult. no SF'),
 
 	# BDT input
 	'AK4HT':('AK4HT',linspace(0, 4000, (101-1)*nbin_multiplier+1).tolist(),';H_{T} [GeV]'),
@@ -387,6 +388,9 @@ plotList = {#discriminantName:(discriminantLJMETName, binning, xAxisLabel)
 	'DNN_disc_4j_40vars':('DNN_disc_4j_40vars',linspace(0, 1, 201).tolist(),';DNN_{4j,40v}'),
 	'DNN_disc_4j_50vars':('DNN_disc_4j_50vars',linspace(0, 1, 201).tolist(),';DNN_{4j,50v}'),
 	'DNN_disc_4j_76vars':('DNN_disc_4j_76vars',linspace(0, 1, 201).tolist(),';DNN_{4j,76v}'),
+
+	'XGB':('XGB',linspace(0, 1, 201).tolist(),';XGB'),
+	'XGB_RS':('XGB_RS',linspace(0, 1, 201).tolist(),';XGB_RS'),
 
 	}
 
