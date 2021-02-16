@@ -28,8 +28,12 @@ doHDsys = False
 doUEsys = False
 doPDF = True
 addCRsys = False
-systematicList = ['pileup','muRFcorrd','muR','muF','isr','fsr','btag','mistag','hotstat','hotcspur','hotclosure']#,'njet','njetsf'] # ,'tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt','ht','trigeff','toppt'
-#systematicList+= ['CSVshapelf','CSVshapehf']
+systematicList = ['pileup','muRFcorrd','muR','muF','isr','fsr','hotstat','hotcspur','hotclosure']#,'njet','njetsf'] # ,'tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt','ht','trigeff','toppt'
+if sys.argv[2]=='BtagPlusCsv' or sys.argv[2]=='CsvOnly' or sys.argv[2]=='CsvNoRenorm':
+	systematicList+= ['CSVshapelf','CSVshapehf']
+if sys.argv[2]=='BtagPlusCsv' or sys.argv[2]=='AsInHT':
+	systematicList+= ['btag','mistag']
+
 systematicList+= ['JEC','JER']#,
 # 'JEC_Total','JEC_FlavorQCD',
 # 'JEC_RelativeBal','JEC_RelativeSample_'+year.replace('R','20'),
@@ -370,6 +374,7 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 			print "              ... "+signal,gettime()
 			thetaRfileName = outDir+'/templates_'+discriminant+'_'+signal+BRconfStr+'_'+lumiStr+saveKey+'.root'
 			thetaRfile = TFile(thetaRfileName,'RECREATE')
+			thetaRfile.cd()
 			for cat in catList:
 				i=BRconfStr+cat
 				totBkg_ = sum([hists[proc+i].Integral() for proc in bkgGrupList])
@@ -405,6 +410,7 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 		print "       WRITING COMBINE TEMPLATES: "
 		combineRfileName = outDir+'/templates_'+discriminant+BRconfStr+'_'+lumiStr+saveKey+'.root'
 		combineRfile = TFile(combineRfileName,'RECREATE')
+		combineRfile.cd()
 		for cat in catList:
 			print "              ... "+cat,gettime()
 			i=BRconfStr+cat
@@ -466,6 +472,7 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 			print "              ... "+signal,gettime()
 			yldRfileName = outDir+'/templates_YLD_'+signal+BRconfStr+'_'+lumiStr+saveKey+'.root'
 			yldRfile = TFile(yldRfileName,'RECREATE')
+			yldRfile.cd()
 			for isEM in isEMlist:	
 				for proc in bkgGrupList+['data',signal]:
 					yldHists = {}
@@ -598,7 +605,7 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 					row = [proc]
 					for cat in catList:
 						if not ('is'+isEM in cat and thetag in cat): continue
-						modTag = cat#[cat.find('nT'):cat.find('nJ')-3]
+						modTag = cat[cat.find('nHOT'):]
 						histoPrefix=discriminant+'_'+lumiStr+'_'+cat
 						yieldtemp = 0.
 						yielderrtemp = 0.
@@ -643,7 +650,7 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 				row = [proc]
 				for cat in catList:
 					if not ('isE' in cat and thetag in cat): continue
-					modTag = cat#[cat.find('nT'):cat.find('nJ')-3]
+					modTag = cat[cat.find('nHOT'):]
 					histoPrefixE = discriminant+'_'+lumiStr+'_'+cat
 					histoPrefixM = histoPrefixE.replace('isE','isM')
 					yieldtemp = 0.

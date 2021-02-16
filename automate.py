@@ -1,90 +1,56 @@
 import os
 
-cmsswbase = '/user_data/ssagir/CMSSW_10_2_13/src'
+# cmsswbase = '/user_data/ssagir/CMSSW_10_2_13/src'
+cmsswbase = '/home/eusai/4t/CMSSW_10_2_16_UL/src'
 
-trainings=[
+trainings=[]
 
-{
-'year':'R17',
-'variable':['BDT','HT'],
-'postfix':'66vars_4j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_66vars_mDepth2_4j_year2017/'
-},
-{
-'year':'R17',
-'variable':['BDT','HT'],
-'postfix':'66vars_6j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_66vars_mDepth2_6j_year2017/'
-},
-{
-'year':'R17',
-'variable':['BDT','HT'],
-'postfix':'73vars_4j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_73vars_mDepth2_4j_year2017/'
-},
-{
-'year':'R17',
-'variable':['BDT','HT'],
-'postfix':'73vars_6j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2017_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_73vars_mDepth2_6j_year2017/'
-},
-
-{
-'year':'R18',
-'variable':['BDT','HT'],
-'postfix':'66vars_4j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_66vars_mDepth2_4j_year2018/'
-},
-{
-'year':'R18',
-'variable':['BDT','HT'],
-'postfix':'66vars_6j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_66vars_mDepth2_6j_year2018/'
-},
-{
-'year':'R18',
-'variable':['BDT','HT'],
-'postfix':'73vars_4j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_73vars_mDepth2_4j_year2018/'
-},
-{
-'year':'R18',
-'variable':['BDT','HT'],
-'postfix':'73vars_6j_pt20',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_08262020_step3_wenyu/BDT_SepRank6j73vars2017year_73vars_mDepth2_6j_year2018/'
-},
-
-{
-'year':'R18',
-'variable':['HT'],
-'postfix':'HEM1516_201108',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_hem_110720_step1hadds/'
-},
-{
-'year':'R18',
-'variable':['HT'],
-'postfix':'HEM1516syst_201108',
-'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep2018_Oct2019_4t_072820_step1hadds/'
-},
-
+years=['16','17','18']#,16]
+prod={
+'16':'Feb2020',
+'17':'Oct2019',
+'18':'Oct2019',
+}
+postfixes=[
+'AsInHT',
+'BtagPlusCsv',
+'CsvOnly',
+'CsvNoRenorm',
 ]
+vrs=[
+'BDT',
+'thirdcsvb_bb',
+'fourthcsvb_bb',
+'NJetsCSVwithSF_MultiLepCalc',
+'NJets_JetSubCalc',
+'BDTtrijet2',
+'AK4HTpMETpLepPt',
+'sixthJetPt',
+'PtFifthJet',
+'hemiout',
+'AK4HT',
+'NJetsCSV_MultiLepCalc',
+]
+for p in postfixes:
+	for y in years:
+		tmp={
+		'year':'R'+y,
+		'variable':vrs,
+		'postfix':p,#+'_lim',#'NoNBtagSF_'+p,
+		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_01272021_step3_wenyu/BDT_SepRank6j73vars2017year40top_40vars_mDepth2_6j_year20'+y+'_NJetsCSV/'
+		}
+		trainings.append(tmp)
+
+
 
 combinations = [
 {
 	'variable':'BDT',
-	'postfix':'66vars_4j_pt20'
+	'postfix':'40vars_6j_NJetsCSV_lim'
 },
 {
 	'variable':'BDT',
-	'postfix':'66vars_6j_pt20'
-},
-{
-	'variable':'BDT',
-	'postfix':'73vars_4j_pt20'
-},
-{
-	'variable':'BDT',
-	'postfix':'73vars_6j_pt20'
+	'postfix':'40vars_6j_rmCSV_lim'
 }
 ]
 
@@ -95,7 +61,7 @@ combinations = [
 #4 dataCard + limit + significance
 #5 combination limit + significance
 #6 print results
-step=1
+step=3
 
 if step==1:
 	os.chdir('makeTemplates')
@@ -107,20 +73,19 @@ if step==1:
 if step==2:
 	os.chdir('makeTemplates')
 	for train in trainings:
-		for v in train['variable']:
-			shell_name = 'cfg/condor_step2_'+train['year']+'_'+train['postfix']+'.sh'
-			shell=open(shell_name,'w')
-			shell.write(
+		shell_name = 'cfg/condor_step2_'+train['year']+'_'+train['postfix']+'.sh'
+		shell=open(shell_name,'w')
+		shell.write(
 '#!/bin/bash\n\
 source /cvmfs/cms.cern.ch/cmsset_default.sh\n\
 cd '+cmsswbase+'\n\
 eval `scramv1 runtime -sh`\n\
 cd '+os.getcwd()+'\n\
 python doTemplates.py '+train['year']+' '+train['postfix']+'\n')
-			shell.close()
-			jdf_name = 'cfg/condor_step2_'+train['year']+'_'+train['postfix']+'.job'
-			jdf=open(jdf_name,'w')
-			jdf.write(
+		shell.close()
+		jdf_name = 'cfg/condor_step2_'+train['year']+'_'+train['postfix']+'.job'
+		jdf=open(jdf_name,'w')
+		jdf.write(
 'universe = vanilla\n\
 Executable = '+os.getcwd()+'/'+shell_name+'\n\
 Should_Transfer_Files = YES\n\
@@ -132,8 +97,8 @@ Log = '+os.getcwd()+'/log/'+shell_name.split('.')[0].split('/')[1]+'.log\n\
 Notification = Error\n\
 Arguments = \n\
 Queue 1\n')
-			jdf.close()
-			os.system('condor_submit '+jdf_name)
+		jdf.close()
+		os.system('condor_submit '+jdf_name)
 	os.chdir('..')
 
 
@@ -213,11 +178,10 @@ Queue 1\n')
 if step==5:
 	os.chdir('combineLimits')
 	for c in combinations:
-		for v in c['variable']:
-			combo=c['postfix']+'_'+v
-			shell_name = 'cfg/condor_step5_'+combo+'.sh'
-			shell=open(shell_name,'w')
-			shell.write(
+		combo=c['postfix']+'_'+c['variable']
+		shell_name = 'cfg/condor_step5_'+combo+'.sh'
+		shell=open(shell_name,'w')
+		shell.write(
 '#!/bin/bash\n\
 source /cvmfs/cms.cern.ch/cmsset_default.sh\n\
 cd '+cmsswbase+'\n\
@@ -227,10 +191,10 @@ combineCards.py R17=limits_R17_'+combo+'/cmb/combined.txt.cmb R18=limits_R18_'+c
 text2workspace.py  BDTcomb/'+combo+'.txt  -o BDTcomb/'+combo+'.root\n\
 combine -M Significance BDTcomb/'+combo+'.root -t -1 --expectSignal=1 --cminDefaultMinimizerStrategy 0 &> BDTcomb/sig_'+combo+'.txt\n\
 combine -M AsymptoticLimits BDTcomb/'+combo+'.root --run=blind --cminDefaultMinimizerStrategy 0 &> BDTcomb/asy_'+combo+'.txt\n')
-			shell.close()
-			jdf_name = 'cfg/condor_step5_'+combo+'.job'
-			jdf=open(jdf_name,'w')
-			jdf.write(
+		shell.close()
+		jdf_name = 'cfg/condor_step5_'+combo+'.job'
+		jdf=open(jdf_name,'w')
+		jdf.write(
 'universe = vanilla\n\
 Executable = '+os.getcwd()+'/'+shell_name+'\n\
 Should_Transfer_Files = YES\n\
@@ -242,8 +206,8 @@ Log = '+os.getcwd()+'/log/'+shell_name.split('.')[0].split('/')[1]+'.log\n\
 Notification = Error\n\
 Arguments = \n\
 Queue 1\n')
-			jdf.close()
-			os.system('condor_submit '+jdf_name)
+		jdf.close()
+		os.system('condor_submit '+jdf_name)
 	os.chdir('..')
 
 def printlim(spec,year,variable,isComb):
@@ -278,10 +242,9 @@ if step==6:
 	os.chdir('combineLimits')
 	for train in trainings:
 		for v in train['variable']:
-			printlim(train['postfix'] , train['year'] , v,False)
+			printlim(train['postfix'] , train['year'] , v ,False)
 	for combo in combinations:
-		for v in combo['variable']:
-			printlim(combo['postfix'],'R17+18',v,True)
+		printlim(combo['postfix'],'R17+18',combo['variable'],True)
 	os.chdir('..')
 
 # standalone commands

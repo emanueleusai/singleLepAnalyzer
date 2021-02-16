@@ -100,12 +100,20 @@ sys.argv[2],
 # 'HTb_vs_maxJJJpt',
 ]
 
+# isEMlist  = ['E','M']
+# nhottlist = ['0','1','2p']
+# nttaglist = ['0p']
+# nWtaglist = ['0p']
+# nbtaglist = ['2','3','4p']
+# njetslist = ['6','7','8','9','10p']
+
 isEMlist  = ['E','M']
-nhottlist = ['0','1','2p']
+nhottlist = ['0p']
 nttaglist = ['0p']
 nWtaglist = ['0p']
-nbtaglist = ['2','3','4p']
-njetslist = ['6','7','8','9','10p']
+nbtaglist = ['2p']
+njetslist = ['4p','6p']
+
 if not categorize: 	
 	nhottlist = ['0p']
 	nttaglist = ['0p']

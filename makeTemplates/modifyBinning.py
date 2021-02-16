@@ -38,7 +38,7 @@ elif year=='R18':
 	from weights18 import *
 
 iPlot=sys.argv[2]
-saveKey = '_ifsr'
+saveKey = ''
 # if len(sys.argv)>1: iPlot=str(sys.argv[1])
 cutString = ''#'lep30_MET150_NJets4_DR1_1jet450_2jet150'
 lumiStr = str(targetlumi/1000).replace('.','p')+'fb' # 1/fb
@@ -66,7 +66,7 @@ if sigName=='X53':
 	sigProcList+= [sigName+'RHM'+str(mass) for mass in range(900,1700+1,100)]
 ttProcList = ['ttnobb','ttbb'] # ['ttjj','ttcc','ttbb','ttbj']
 bkgProcList = ttProcList + ['top','ewk','qcd'] #put the most dominant process first
-removeSystFromYields = ['CSVshapehf','CSVshapelf','hdamp','ue','njet','njetsf'] #list of systematics to be removed from yield errors
+removeSystFromYields = ['hdamp','ue','njet','njetsf'] #list of systematics to be removed from yield errors
 removeSystFromYields+= ['JEC_Total','JEC_FlavorQCD',
 'JEC_RelativeBal','JEC_RelativeSample_'+year.replace('R','20'),
 'JEC_Absolute','JEC_Absolute_'+year.replace('R','20'),
@@ -75,9 +75,12 @@ removeSystFromYields+= ['JEC_Total','JEC_FlavorQCD',
 'JEC_BBEC1','JEC_BBEC1_'+year.replace('R','20')]
 removeSystFromYields+= ['PSwgt'] #remove if envelope method is not used, otherwise replace with ['isr','fsr']
 
-minNbins=1 #min number of bins to be merged
-if iPlot=='HT': minNbins=2
-stat = 0.3 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
+if sys.argv[3]=='AsInHT':
+	removeSystFromYields+=['CSVshapehf','CSVshapelf']
+
+minNbins=2 #min number of bins to be merged
+if 'HT' in iPlot: minNbins=4
+stat = 1.1 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
 if 'kinematics' in templateDir: 
 	stat = 1.1
 	doSmoothing = False

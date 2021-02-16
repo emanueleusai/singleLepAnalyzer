@@ -35,7 +35,7 @@ elif region=='TTCR': pfix='ttbar_'+year
 if not isCategorized: pfix='kinematics_'+region+'_'+year
 templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
-isRebinned='_ifsr_rebinned_stat0p3' #post for ROOT file names
+isRebinned='_rebinned_stat1p1' #post for ROOT file names
 if not isCategorized: isRebinned='_rebinned_stat1p1'
 saveKey = '' # tag for plot names
 
@@ -66,7 +66,7 @@ doAllSys = True
 addCRsys = False
 doNormByBinWidth=True
 doOneBand = True
-blind = True
+blind = False
 yLog  = True
 doRealPull = False
 compareShapes = False
@@ -232,7 +232,11 @@ totBkgTemp2 = {}
 totBkgTemp3 = {}
 for catEStr in catsElist:
 	systematicList_ = systematicList[:]
-	if 'nB0p' not in catEStr: systematicList_ += ['btag','mistag']
+	if 'nB0p' not in catEStr:
+		if sys.argv[3]=='BtagPlusCsv' or sys.argv[3]=='CsvOnly' or sys.argv[3]=='CsvNoRenorm':
+			systematicList_+= ['CSVshapelf','CSVshapehf']
+		if sys.argv[3]=='BtagPlusCsv' or sys.argv[3]=='AsInHT':
+			systematicList_+= ['btag','mistag']
 	if 'nHOT0p' not in catEStr: systematicList_ += ['hotstat','hotcspur','hotclosure']
 	modTag = catEStr#[catEStr.find('nT'):catEStr.find('nJ')-3]
 	for isEM in isEMlist:
@@ -668,7 +672,7 @@ for catEStr in catsElist:
 		if doOneBand: savePrefix+='_totBand'
 
 		c1.SaveAs(savePrefix+'.png')
-		c1.SaveAs(savePrefix+'.pdf')
+		# c1.SaveAs(savePrefix+'.pdf')
 # 		c1.SaveAs(savePrefix+'.eps')
 # 		c1.SaveAs(savePrefix+'.root')
 # 		c1.SaveAs(savePrefix+'.C')
@@ -1080,7 +1084,7 @@ for catEStr in catsElist:
 	if doOneBand: savePrefixmerged+='_totBand'
 
 	c1merged.SaveAs(savePrefixmerged+'.png')
-	c1merged.SaveAs(savePrefixmerged+'.pdf')
+	# c1merged.SaveAs(savePrefixmerged+'.pdf')
 # 	c1merged.SaveAs(savePrefixmerged+'.eps')
 # 	c1merged.SaveAs(savePrefixmerged+'.root')
 # 	c1merged.SaveAs(savePrefixmerged+'.C')
