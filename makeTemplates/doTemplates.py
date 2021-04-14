@@ -29,10 +29,10 @@ doUEsys = False
 doPDF = True
 addCRsys = False
 systematicList = ['pileup','muRFcorrd','muR','muF','isr','fsr','hotstat','hotcspur','hotclosure']#,'njet','njetsf'] # ,'tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt','ht','trigeff','toppt'
-if sys.argv[2]=='BtagPlusCsv' or sys.argv[2]=='CsvOnly' or sys.argv[2]=='CsvNoRenorm':
-	systematicList+= ['CSVshapelf','CSVshapehf']
-if sys.argv[2]=='BtagPlusCsv' or sys.argv[2]=='AsInHT':
-	systematicList+= ['btag','mistag']
+# if sys.argv[2]=='BtagPlusCsv' or sys.argv[2]=='CsvOnly' or sys.argv[2]=='CsvNoRenorm':
+systematicList+= ['CSVshapelf','CSVshapehf']
+# if sys.argv[2]=='BtagPlusCsv' or sys.argv[2]=='AsInHT':
+	# systematicList+= ['btag','mistag']
 
 systematicList+= ['JEC','JER']#,
 # 'JEC_Total','JEC_FlavorQCD',
@@ -728,6 +728,17 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 	return
 
 iPlotList = [x.replace('bkghists_','')[:-2] for x in os.listdir(outDir+'/'+catList[0][2:]) if 'bkghists_' in x and '.p' in x]
+
+# iPlotList = ['thirdcsvb_bb',
+# 'fourthcsvb_bb',
+# 'NJetsCSV_MultiLepCalc',
+# 'NJets_JetSubCalc',
+# 'BDTtrijet2',
+# 'AK4HTpMETpLepPt',
+# 'sixthJetPt',
+# 'PtFifthJet',
+# 'hemiout',
+# 'AK4HT']
 
 print "WORKING DIR:",outDir
 print "Templates:",iPlotList

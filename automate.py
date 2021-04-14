@@ -1,43 +1,114 @@
-import os
+import os,time
 
 # cmsswbase = '/user_data/ssagir/CMSSW_10_2_13/src'
 cmsswbase = '/home/eusai/4t/CMSSW_10_2_16_UL/src'
 
 trainings=[]
 
-years=['16','17','18']#,16]
+years=['17','18']#['16','17','18']#,16]
 prod={
 '16':'Feb2020',
 '17':'Oct2019',
 '18':'Oct2019',
 }
 postfixes=[
-'AsInHT',
-'BtagPlusCsv',
-'CsvOnly',
-'CsvNoRenorm',
+# 'GOF_deepjet_2DHTSF_v2',
+# 'GOF_deepjet_no2DHTSF_v2', 
+
+# 'GOF_deepjet_2DHTSF_v3',
+# 'GOF_deepjet_no2DHTSF_v3', 
+
+# 'GOF_deepjet_2DHTSF',
+# 'GOF_deepjet_no2DHTSF',
+
+'40vars_6j_NJetsCSV_v1',
+'50vars_6j_NJetsCSV_v1',
+    
+    
+# 'GOF_2DHTSF_v3',
+# 'GOF_no2DHTSF_v3',
+
+# 'GOF_angularfix_no2DHTSF',
+# 'GOF_angularfix_2DHTSF',
+
+ 
+
 ]
-vrs=[
-'BDT',
-'thirdcsvb_bb',
-'fourthcsvb_bb',
-'NJetsCSVwithSF_MultiLepCalc',
-'NJets_JetSubCalc',
-'BDTtrijet2',
-'AK4HTpMETpLepPt',
-'sixthJetPt',
-'PtFifthJet',
-'hemiout',
-'AK4HT',
-'NJetsCSV_MultiLepCalc',
-]
+
+# vrs=[
+# 'BDT',
+# 'thirdcsvb_bb',
+# 'fourthcsvb_bb',
+# 'NJetsCSVwithSF_MultiLepCalc',
+# 'NJets_JetSubCalc',
+# 'BDTtrijet2',
+# 'AK4HTpMETpLepPt',
+# 'sixthJetPt',
+# 'PtFifthJet',
+# 'hemiout',
+# 'AK4HT',
+# 'NJetsCSV_MultiLepCalc',
+# ]
+#'BDT',
+# vrs=['thirdcsvb_bb',
+# 'fourthcsvb_bb',
+# 'NJetsCSV_MultiLepCalc',
+# 'NJets_JetSubCalc',
+# 'BDTtrijet2',
+# 'AK4HTpMETpLepPt',
+# 'sixthJetPt',
+# 'PtFifthJet',
+# 'hemiout',
+# 'AK4HT']
+
+#deepcsv
+vrs=['BDT']
+# vrs=['BDT','thirdcsvb_bb','fourthcsvb_bb','NJetsCSV_MultiLepCalc','NJets_JetSubCalc','BDTtrijet2','AK4HTpMETpLepPt',
+# 'sixthJetPt','PtFifthJet','hemiout','AK4HT','BDTtrijet3','HT_bjets','fifthJetPt','ratio_HTdHT4leadjets','MT_lepMet',
+# 'HT_2m','mass_maxBBmass','aveBBdr','mass_lepBJet0','deltaR_minBB','NresolvedTops1pFake','HOTGoodTrijet2_pTratio',
+# 'HOTGoodTrijet2_mass','HOTGoodTrijet2_dijetmass','HOTGoodTrijet2_csvJetnotdijet','HOTGoodTrijet2_dRtridijet',
+# 'mass_lepBJet_mindr','HOTGoodTrijet2_dRtrijetJetnotdijet','corr_met_MultiLepCalc','minMleppBjet','M_allJet_W',
+# 'NJetsTtagged','BJetLeadPt','secondJetPt','deltaEta_maxBB','Aplanarity','centrality','FW_momentum_6','Sphericity',
+# 'BDTtrijet1',]
+
+
+#deepjet
+# vrs=['thirddeepjetb','fourthdeepjetb','NJetsCSV_JetSubCalc','NJets_JetSubCalc','BDTtrijet2','AK4HTpMETpLepPt',
+# 'sixthJetPt','PtFifthJet','hemiout','AK4HT','BDTtrijet3','HT_bjets','fifthJetPt','ratio_HTdHT4leadjets','MT_lepMet',
+# 'HT_2m','mass_maxBBmass','aveBBdr','mass_lepBJet0','deltaR_minBB','NresolvedTops1pFake','HOTGoodTrijet2_pTratio',
+# 'HOTGoodTrijet2_mass','HOTGoodTrijet2_dijetmass','HOTGoodTrijet2_deepjet_Jetnotdijet','HOTGoodTrijet2_dRtridijet',
+# 'mass_lepBJet_mindr','HOTGoodTrijet2_dRtrijetJetnotdijet','corr_met_MultiLepCalc','minMleppBjet','M_allJet_W',
+# 'NJetsTtagged','BJetLeadPt','secondJetPt','deltaEta_maxBB','Aplanarity','centrality','FW_momentum_6','Sphericity',
+# 'BDTtrijet1',]
+
+
+#['AK4HT','AK4HTpMETpLepPt','Aplanarity','BDTtrijet1','BDTtrijet2','BDTtrijet3','BDTtrijet4','BJetLeadPt',
+# 'FW_momentum_0','FW_momentum_1','FW_momentum_2','FW_momentum_3','FW_momentum_4','FW_momentum_5','FW_momentum_6',
+# 'HOTGoodTrijet1_csvJetnotdijet','HOTGoodTrijet1_dRtridijet','HOTGoodTrijet1_dRtrijetJetnotdijet',
+# 'HOTGoodTrijet1_dijetmass','HOTGoodTrijet1_mass','HOTGoodTrijet1_pTratio','HOTGoodTrijet2_csvJetnotdijet',
+# 'HOTGoodTrijet2_dRtridijet','HOTGoodTrijet2_dRtrijetJetnotdijet','HOTGoodTrijet2_dijetmass','HOTGoodTrijet2_mass',
+# 'HOTGoodTrijet2_pTratio','HT_2m','HT_bjets','MT2bb','MT_lepMet','M_allJet_W','NJetsCSVwithSF_MultiLepCalc','NJetsCSV_MultiLepCalc',
+# 'NJetsTtagged','NJetsWtagged','NJets_JetSubCalc','NresolvedTops1pFake','PtFifthJet','Sphericity','aveBBdr','aveCSVpt',
+# 'centrality','corr_met_MultiLepCalc','csvJet3','csvJet4','deltaEta_maxBB','deltaPhi_lepJetInMinMljet',
+# 'deltaPhi_lepbJetInMinMlb','deltaR_lepBJet_maxpt','deltaR_lepJetInMinMljet','deltaR_lepbJetInMinMlb','deltaR_minBB',
+# 'fifthJetPt','fourthcsvb_bb','hemiout','lepDR_minBBdr','leptonPt_MultiLepCalc','mass_lepBJet0','mass_lepBJet_mindr',
+# 'mass_lepJets0','mass_lepJets1','mass_lepJets2','mass_maxBBmass','mass_maxJJJpt','mass_minBBdr','mass_minLLdr',
+# 'minDR_lepBJet','minMleppBjet','ratio_HTdHT4leadjets','secondJetPt','sixthJetPt','theJetLeadPt','thirdcsvb_bb']
+
+
 for p in postfixes:
 	for y in years:
 		tmp={
 		'year':'R'+y,
 		'variable':vrs,
-		'postfix':p,#+'_lim',#'NoNBtagSF_'+p,
-		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_01272021_step3_wenyu/BDT_SepRank6j73vars2017year40top_40vars_mDepth2_6j_year20'+y+'_NJetsCSV/'
+		'postfix':p+'_8apr21',#+'_lim',#'NoNBtagSF_'+p,
+		#'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_01272021_step3_wenyu/BDT_SepRank6j73vars2017year40top_40vars_mDepth2_6j_year20'+y+'_NJetsCSV/'
+		# 'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_03062021_step2/'#DeepCSV 
+		#'path':  '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_03092021_step2/'#DeepJet
+		# 'path':  '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_03162021_step2/'#DeepJet
+
+		'path':'/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_04082021_step3_'+p+'/' 
+		# 'path':  '/mnt/hadoop/store/group/bruxljm/FWLJMET102X_1lep20'+y+'_'+prod[y]+'_4t_03092021_step2p5/'#DeepJet
 		}
 		trainings.append(tmp)
 
@@ -46,11 +117,11 @@ for p in postfixes:
 combinations = [
 {
 	'variable':'BDT',
-	'postfix':'40vars_6j_NJetsCSV_lim'
+	'postfix':'40vars_6j_NJetsCSV_v1_8apr21'
 },
 {
 	'variable':'BDT',
-	'postfix':'40vars_6j_rmCSV_lim'
+	'postfix':'50vars_6j_NJetsCSV_v1_8apr21'
 }
 ]
 
@@ -68,6 +139,7 @@ if step==1:
 	for train in trainings:
 		for v in train['variable']:
 			os.system('python doCondorTemplates.py '+train['year']+' '+v+' '+train['postfix']+' '+train['path'])
+			time.sleep(2)
 	os.chdir('..')
 
 if step==2:
@@ -99,6 +171,9 @@ Arguments = \n\
 Queue 1\n')
 		jdf.close()
 		os.system('condor_submit '+jdf_name)
+		print(shell_name)
+		# os.system('source '+shell_name+' & ')
+		time.sleep(2)
 	os.chdir('..')
 
 
@@ -134,6 +209,9 @@ Arguments = \n\
 Queue 1\n')
 			jdf.close()
 			os.system('condor_submit '+jdf_name)
+			# print(shell_name)
+			# os.system('source '+shell_name+' & ')
+			# time.sleep(2)
 	os.chdir('..')
 
 

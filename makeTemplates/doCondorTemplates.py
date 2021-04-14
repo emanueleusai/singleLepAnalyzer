@@ -101,11 +101,12 @@ sys.argv[2],
 ]
 
 # isEMlist  = ['E','M']
-# nhottlist = ['0','1','2p']
+# nhottlist = ['0','1p']
 # nttaglist = ['0p']
 # nWtaglist = ['0p']
 # nbtaglist = ['2','3','4p']
 # njetslist = ['6','7','8','9','10p']
+
 
 isEMlist  = ['E','M']
 nhottlist = ['0p']

@@ -75,12 +75,15 @@ removeSystFromYields+= ['JEC_Total','JEC_FlavorQCD',
 'JEC_BBEC1','JEC_BBEC1_'+year.replace('R','20')]
 removeSystFromYields+= ['PSwgt'] #remove if envelope method is not used, otherwise replace with ['isr','fsr']
 
-if sys.argv[3]=='AsInHT':
-	removeSystFromYields+=['CSVshapehf','CSVshapelf']
+# if sys.argv[3]=='AsInHT':
+# 	removeSystFromYields+=['CSVshapehf','CSVshapelf']
 
 minNbins=2 #min number of bins to be merged
-if 'HT' in iPlot: minNbins=4
-stat = 1.1 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
+# if 'HT' in iPlot: minNbins=4
+#if iPlot[0]=='N':
+#	minNbins=1
+
+stat = 0.3#1.1 #statistical uncertainty requirement (enter >1.0 for no rebinning; i.g., "1.1")
 if 'kinematics' in templateDir: 
 	stat = 1.1
 	doSmoothing = False
@@ -98,20 +101,20 @@ xMin = -1e9
 xMax = 1e9
 
 if iPlot.startswith('HT') and stat<1.: 
-	minNbins=2 #(assuming initial hists are 25 GeV bins) min 50GeV bin width (_nB2_ categories are set to min 100GeV bin width below)
+	# minNbins=2 #(assuming initial hists are 25 GeV bins) min 50GeV bin width (_nB2_ categories are set to min 100GeV bin width below)
 	xMin = 0
 	if iPlot=='HT': xMin = 500
 	xMax = 3000
 if iPlot=='maxJJJpt' and stat<1.: 
-	minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+	# minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
 	xMin = 0
 	xMax = 3000
 if iPlot=='ST' and stat<1.: 
-	minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+	# minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
 	xMin = 500
 	xMax = 4000
 if iPlot=='BDT' and stat<1.: 
-	minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
+	# minNbins=2 #(assuming initial hists are 15 GeV bins) min 30GeV bin width
 	xMin = -1
 	xMax = 1
 		
@@ -231,17 +234,18 @@ for chn in totBkgHists.keys():
 			#if nBinsMerged<minNbins: continue
 			if nBinsMerged<minNbins or ('_nB2_' in chn and nBinsMerged<4 and (iPlot.startswith('HT') or iPlot=='ST' or iPlot=='BDT')): continue
 			if totTempBinContent_E>0. and totTempBinContent_M>0.:
-				if math.sqrt(totTempBinErrSquared_E)/totTempBinContent_E<=stat and math.sqrt(totTempBinErrSquared_M)/totTempBinContent_M<=stat:
-					totTempBinContent_E = 0.
-					totTempBinContent_M = 0.
-					totTempBinErrSquared_E = 0.
-					totTempBinErrSquared_M = 0.
-					totDataTempBinContent_E = 0.
-					totDataTempBinContent_M = 0.
-					totDataTempBinErrSquared_E = 0.
-					totDataTempBinErrSquared_M = 0.
-					nBinsMerged=0
-					xbinsListTemp[chn].append(totBkgHists[chn].GetXaxis().GetBinLowEdge(Nbins+1-iBin))
+				#if (totTempBinContent_E>9.99 and totTempBinContent_M>9.99 and totDataTempBinContent_E>0.99 and totDataTempBinContent_M>0.99):
+					if math.sqrt(totTempBinErrSquared_E)/totTempBinContent_E<=stat and math.sqrt(totTempBinErrSquared_M)/totTempBinContent_M<=stat:
+						totTempBinContent_E = 0.
+						totTempBinContent_M = 0.
+						totTempBinErrSquared_E = 0.
+						totTempBinErrSquared_M = 0.
+						totDataTempBinContent_E = 0.
+						totDataTempBinContent_M = 0.
+						totDataTempBinErrSquared_E = 0.
+						totDataTempBinErrSquared_M = 0.
+						nBinsMerged=0
+						xbinsListTemp[chn].append(totBkgHists[chn].GetXaxis().GetBinLowEdge(Nbins+1-iBin))
 	if xbinsListTemp[chn][-1]!=totBkgHists[chn].GetXaxis().GetBinLowEdge(1): xbinsListTemp[chn].append(totBkgHists[chn].GetXaxis().GetBinLowEdge(1))
 	if stat<=1.0:
 		if totBkgHists[chn].GetBinContent(1)==0. or totBkgHists[chn.replace('isE','isM')].GetBinContent(1)==0.: 
@@ -296,6 +300,11 @@ for rfile in rfiles:
 			rebinnedHists[hist].SetDirectory(0)
 			overflow(rebinnedHists[hist])
 			underflow(rebinnedHists[hist])
+# 			if 'BDT_' in hist:
+# 				zero_bin=rebinnedHists[hist].FindBin(0)
+# 				max_bin=rebinnedHists[hist].GetNbinsX()+1
+# 				for imtt in range(zero_bin,max_bin):
+# 					rebinnedHists[hist].SetBinContent(imtt,0)
 			if '__pdf' in hist:
 				if upTag not in hist and downTag not in hist: continue
 			if '__mu' in hist or '__isr' in hist or '__fsr' in hist: continue
@@ -603,6 +612,14 @@ for rfile in rfiles:
 					hsEUp.Write()
 					hsEDn.Write()
 				
+                
+# 		for hist in rebinnedHists:
+# 			if 'BDT_' in hist:
+# 				zero_bin=rebinnedHists[hist].FindBin(0)
+# 				max_bin=rebinnedHists[hist].GetNbinsX()+1
+# 				for imtt in range(zero_bin,max_bin):
+# 					rebinnedHists[hist].SetBinContent(imtt,0)
+                    
 	tfiles[iRfile].Close()
 	outputRfiles[iRfile].Close()
 	iRfile+=1

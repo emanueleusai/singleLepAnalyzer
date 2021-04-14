@@ -35,7 +35,8 @@ elif region=='TTCR': pfix='ttbar_'+year
 if not isCategorized: pfix='kinematics_'+region+'_'+year
 templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
-isRebinned='_rebinned_stat1p1' #post for ROOT file names
+# isRebinned='_rebinned_stat0p3' #post for ROOT file names
+isRebinned='_rebinned_stat0p3'
 if not isCategorized: isRebinned='_rebinned_stat1p1'
 saveKey = '' # tag for plot names
 
@@ -64,9 +65,9 @@ if year != 'R18': systematicList += ['prefire']
 #if year == 'R18': systematicList += ['hem']
 doAllSys = True
 addCRsys = False
-doNormByBinWidth=True
+doNormByBinWidth=False
 doOneBand = True
-blind = False
+blind = True
 yLog  = True
 doRealPull = False
 compareShapes = False
@@ -156,7 +157,7 @@ def formatUpperHist(histogram,histogramBkg):
 			histogram.SetMinimum(0.101)
 		elif not isCategorized:
 			histogram.SetMaximum(5e6*histogramBkg.GetMaximum())
-		else: histogram.SetMaximum(2e2*histogramBkg.GetMaximum())
+		else: histogram.SetMaximum(5e6*histogramBkg.GetMaximum())
 	else: 
 		if 'YLD' in iPlot: histogram.SetMaximum(1.3*histogramBkg.GetMaximum())
 		else: histogram.SetMaximum(1.3*histogramBkg.GetMaximum())
@@ -233,10 +234,10 @@ totBkgTemp3 = {}
 for catEStr in catsElist:
 	systematicList_ = systematicList[:]
 	if 'nB0p' not in catEStr:
-		if sys.argv[3]=='BtagPlusCsv' or sys.argv[3]=='CsvOnly' or sys.argv[3]=='CsvNoRenorm':
-			systematicList_+= ['CSVshapelf','CSVshapehf']
-		if sys.argv[3]=='BtagPlusCsv' or sys.argv[3]=='AsInHT':
-			systematicList_+= ['btag','mistag']
+		# if sys.argv[3]=='BtagPlusCsv' or sys.argv[3]=='CsvOnly' or sys.argv[3]=='CsvNoRenorm':
+		systematicList_+= ['CSVshapelf','CSVshapehf']
+		# if sys.argv[3]=='BtagPlusCsv' or sys.argv[3]=='AsInHT':
+		# 	systematicList_+= ['btag','mistag']
 	if 'nHOT0p' not in catEStr: systematicList_ += ['hotstat','hotcspur','hotclosure']
 	modTag = catEStr#[catEStr.find('nT'):catEStr.find('nJ')-3]
 	for isEM in isEMlist:
@@ -320,10 +321,18 @@ for catEStr in catsElist:
 			totBkgTemp2[catStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 			totBkgTemp3[catStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 			totBkgTemp3[catStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
+            
+# 			if iPlot=='BDT' and ibin>=bkgHT.FindBin(0):
+# 				totBkgTemp3[catStr].SetPointEYhigh(ibin-1,0)
+# 				totBkgTemp3[catStr].SetPointEYlow(ibin-1, 0)
 			
 		for ibin in range(1, bkgHT_test.GetNbinsX()+1):
 			bkgHT_test.SetBinError(ibin,(totBkgTemp3[catStr].GetErrorYlow(ibin-1) + totBkgTemp3[catStr].GetErrorYhigh(ibin-1))/2 )
 
+		bkgHT_test.SetBinContent(1,0)
+		bkgHT_test.SetBinError(1,0)
+		hData_test.SetBinContent(1,0)
+		hData_test.SetBinError(1,0)
 		prob_KS = bkgHT_test.KolmogorovTest(hData_test)
 		prob_KS_X = bkgHT_test.KolmogorovTest(hData_test,"X")
 		prob_chi2 = hData_test.Chi2Test(bkgHT_test,"UW")
@@ -757,6 +766,10 @@ for catEStr in catsElist:
 		totBkgTemp2[catLStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 		totBkgTemp3[catLStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 		totBkgTemp3[catLStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
+        
+# 		if iPlot=='BDT' and ibin>=bkgHTmerged.FindBin(0):
+# 				totBkgTemp3[catLStr].SetPointEYhigh(ibin-1,0)
+# 				totBkgTemp3[catLStr].SetPointEYlow(ibin-1, 0)
 
 	for ibin in range(1, bkgHTmerged_test.GetNbinsX()+1):
 		bkgHTmerged_test.SetBinError(ibin,(totBkgTemp3[catLStr].GetErrorYlow(ibin-1) + totBkgTemp3[catLStr].GetErrorYhigh(ibin-1))/2 )

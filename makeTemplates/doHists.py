@@ -304,6 +304,11 @@ plotList = {#discriminantName:(discriminantLJMETName, binning, xAxisLabel)
 
 	'NJetsCSV_MultiLepCalc':('NJetsCSV_MultiLepCalc',linspace(0, 10, (11-1)*nbin_multiplier+1).tolist(),';b-tagged jet mult. no SF'),
 
+	'thirddeepjetb':('thirddeepjetb',linspace(-2, 1.5, (51-1)*nbin_multiplier+1).tolist(),';DeepJet(3rdDeepJetJet)'),
+	'fourthdeepjetb':('fourthdeepjetb',linspace(-2, 1.5, (51-1)*nbin_multiplier+1).tolist(),';DeepJet(4thDeepJetJet)'),
+	'HOTGoodTrijet2_deepjet_Jetnotdijet':('HOTGoodTrijet2_deepjet_Jetnotdijet', linspace(-2.2, 1.2, (101-1)*nbin_multiplier+1).tolist(),';HOTGoodTrijet2_deepjet_Jetnotdijet'),
+	'NJetsCSV_JetSubCalc':('NJetsCSV_JetSubCalc',linspace(0, 10, (11-1)*nbin_multiplier+1).tolist(),';b-tagged DeepJet jet mult. no SF'),
+
 	# BDT input
 	'AK4HT':('AK4HT',linspace(0, 4000, (101-1)*nbin_multiplier+1).tolist(),';H_{T} [GeV]'),
 	'AK4HTpMETpLepPt':('AK4HTpMETpLepPt',linspace(0, 4000, (101-1)*nbin_multiplier+1).tolist(),';S_{T} [GeV]'),
