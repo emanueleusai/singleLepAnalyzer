@@ -100,12 +100,20 @@ sys.argv[2],
 # 'HTb_vs_maxJJJpt',
 ]
 
+# isEMlist  = ['E','M']
+# nhottlist = ['0','1p']
+# nttaglist = ['0p']
+# nWtaglist = ['0p']
+# nbtaglist = ['2','3','4p']
+# njetslist = ['6','7','8','9','10p']
+
 isEMlist  = ['E','M']
-nhottlist = ['0','1p']
+nhottlist = ['0p']
 nttaglist = ['0p']
 nWtaglist = ['0p']
-nbtaglist = ['2','3','4p']
-njetslist = ['6','7','8','9','10p']
+nbtaglist = ['2p']
+njetslist = ['4p']
+
 if not categorize: 	
 	nhottlist = ['0p']
 	nttaglist = ['0p']
@@ -147,7 +155,7 @@ for iplot in iPlotList:
 Executable = %(dir)s/doCondorTemplates.sh
 Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
-request_memory = 3072
+request_memory = 5000
 Output = condor_%(iPlot)s.out
 Error = condor_%(iPlot)s.err
 Log = condor_%(iPlot)s.log

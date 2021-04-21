@@ -19,17 +19,18 @@ theDir = 'templates_'+year+'_'+sys.argv[2]
 outDir = os.getcwd()+'/'+theDir+'/'+cutString
 
 writeSummaryHists = True
-scaleSignalXsecTo1pb = False # !!!!!Make sure you know signal x-sec used in input files to this script. If this is True, it will scale signal histograms by 1/x-sec in weights.py!!!!!
+scaleSignalXsecTo1pb = True # !!!!!Make sure you know signal x-sec used in input files to this script. If this is True, it will scale signal histograms by 1/x-sec in weights.py!!!!!
 lumiScaleCoeff = 1. # Rescale luminosity used in doHists.py
 ttHFsf = 4.7/3.9 # from TOP-18-002 (v34) Table 4, set it to 1, if no ttHFsf is wanted.
 ttLFsf = -1 # if it is set to -1, ttLFsf is calculated based on ttHFsf in order to keep overall normalization unchanged. Otherwise, it will be used as entered. If no ttLFsf is wanted, set it to 1.
 doAllSys = True
-doHDsys = True
-doUEsys = True
+doHDsys = False
+doUEsys = False
 doPDF = True
 addCRsys = False
-systematicList = ['pileup','muRFcorrd','muR','muF','isr','fsr','btag','btagcorr','btaguncorr','mistag','hotstat','hotcspur','hotclosure']#,'njet','njetsf'] # ,'tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt','ht','trigeff','toppt'
-#systematicList+= ['CSVshapelf','CSVshapehf']
+systematicList = ['pileup','muRFcorrd','muR','muF','isr','fsr','hotstat','hotcspur','hotclosure']#,'njet','njetsf'] # ,'tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt','ht','trigeff','toppt'
+# systematicList+= ['btag','btagcorr','btaguncorr','mistag']
+systematicList+= ['CSVshapelf','CSVshapehf']
 systematicList+= ['JEC','JER']#,
 # 'JEC_Total','JEC_FlavorQCD',
 # 'JEC_RelativeBal','JEC_RelativeSample_'+year.replace('R','20'),
@@ -367,21 +368,26 @@ def makeCatTemplates(datahists,sighists,bkghists,discriminant):
 		#scale signal cross section to 1pb
 		if scaleSignalXsecTo1pb:
 			print "       SCALING SIGNAL TEMPLATES TO 1pb ...",gettime()
+			sscale=1.0
+			if year == 'R17':
+				sscale=3739493.0/849964.0
+			if year == 'R18':
+				sscale=4470942.0/882074.0
 			for signal in sigList:
 				for cat in catList:
 					i=BRconfStr+cat
-					hists[signal+i].Scale(1./xsec[signal])
+					hists[signal+i].Scale(sscale)
 					if doAllSys:
 						for syst in systematicList:
 							if syst=='toppt' or syst=='ht': continue
-							hists[signal+i+syst+'Up'].Scale(1./xsec[signal])
-							hists[signal+i+syst+'Down'].Scale(1./xsec[signal])
+							hists[signal+i+syst+'Up'].Scale(sscale)
+							hists[signal+i+syst+'Down'].Scale(sscale)
 							if normalizeRENORM_PDF and (syst.startswith('mu') or syst=='pdf'):
 								hists[signal+i+syst+'Up'].Scale(hists[signal+i].Integral()/hists[signal+i+syst+'Up'].Integral())
 								hists[signal+i+syst+'Down'].Scale(hsihistsg[signal+i].Integral()/hists[signal+i+syst+'Down'].Integral())
 					if doPDF:
 						for pdfInd in range(100): 
-							hists[signal+i+'pdf'+str(pdfInd)].Scale(1./xsec[signal])
+							hists[signal+i+'pdf'+str(pdfInd)].Scale(sscale)
 
 		#Theta templates:
 		print "       WRITING THETA TEMPLATES: "

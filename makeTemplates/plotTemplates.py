@@ -35,6 +35,8 @@ elif region=='TTCR': pfix='ttbar_'+year
 if not isCategorized: pfix='kinematics_'+region+'_'+year
 templateDir=os.getcwd()+'/'+pfix+'_'+sys.argv[3]+'/'+cutString+'/'
 
+blindBDT = False
+
 isRebinned='_ttH_rebinned_stat0p3' #post for ROOT file names
 if not isCategorized: isRebinned='_rebinned_stat1p1'
 saveKey = '' # tag for plot names
@@ -59,7 +61,7 @@ elif 'HTB' in sig: bkgHistColors = {'ttbar':rt.kGreen-3,'wjets':rt.kPink-4,'top'
 else: bkgHistColors = {'top':rt.kAzure+8,'ewk':rt.kMagenta-2,'qcd':rt.kOrange+5} #TT
 
 systematicList = ['pileup','JEC','JER','isr','fsr','muRF','pdf']#,'njet','hdamp','ue','ht','trigeff','toppt','tau32','jmst','jmrt','tau21','jmsW','jmrW','tau21pt']
-#systematicList+= ['CSVshapelf','CSVshapehf']
+systematicList+= ['CSVshapelf','CSVshapehf']
 if year != 'R18': systematicList += ['prefire']
 #if year == 'R18': systematicList += ['hem']
 useSmoothShapes = True
@@ -307,6 +309,7 @@ for catEStr in catsElist:
 		totBkgTemp2[catStr] = rt.TGraphAsymmErrors(bkgHT.Clone(bkgHT.GetName()+'shapePlusNorm'))
 		totBkgTemp3[catStr] = rt.TGraphAsymmErrors(bkgHT.Clone(bkgHT.GetName()+'All'))
 		
+		
 		for ibin in range(1,bkghists[bkgProcList[0]+catStr].GetNbinsX()+1):
 			errorUp = 0.
 			errorDn = 0.
@@ -335,6 +338,10 @@ for catEStr in catsElist:
 			totBkgTemp2[catStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 			totBkgTemp3[catStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 			totBkgTemp3[catStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
+			
+			if iPlot=='BDT' and ibin>=bkgHT.FindBin(0) and blindBDT:
+				totBkgTemp3[catStr].SetPointEYhigh(ibin-1,0)
+				totBkgTemp3[catStr].SetPointEYlow(ibin-1, 0)
 			
 		for ibin in range(1, bkgHT_test.GetNbinsX()+1):
 			bkgHT_test.SetBinError(ibin,(totBkgTemp3[catStr].GetErrorYlow(ibin-1) + totBkgTemp3[catStr].GetErrorYhigh(ibin-1))/2 )
@@ -774,6 +781,12 @@ for catEStr in catsElist:
 		totBkgTemp2[catLStr].SetPointEYlow(ibin-1, math.sqrt(errorStatOnly+errorNorm))
 		totBkgTemp3[catLStr].SetPointEYhigh(ibin-1,math.sqrt(errorUp+errorNorm+errorStatOnly))
 		totBkgTemp3[catLStr].SetPointEYlow(ibin-1, math.sqrt(errorDn+errorNorm+errorStatOnly))
+		
+		
+		if iPlot=='BDT' and ibin>=bkgHTmerged.FindBin(0) and blindBDT:
+				totBkgTemp3[catLStr].SetPointEYhigh(ibin-1,0)
+				totBkgTemp3[catLStr].SetPointEYlow(ibin-1, 0)
+		
 
 	for ibin in range(1, bkgHTmerged_test.GetNbinsX()+1):
 		bkgHTmerged_test.SetBinError(ibin,(totBkgTemp3[catLStr].GetErrorYlow(ibin-1) + totBkgTemp3[catLStr].GetErrorYhigh(ibin-1))/2 )
